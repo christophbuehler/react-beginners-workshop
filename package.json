@@ -22,6 +22,7 @@
     "next-themes": "^0.4.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "rxjs": "^7.8.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7"
   },
@@ -46,6 +47,8 @@
     "fix": "biome check --write",
     "lint": "biome lint",
     "start": "next start",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "push-indexes": "firebase deploy --only firestore:indexes",
+    "pull-indexes": "firebase firestore:indexes > firestore.indexes.json"
   }
 }

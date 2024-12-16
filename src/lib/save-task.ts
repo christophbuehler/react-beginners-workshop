@@ -11,11 +11,12 @@ import {
 export const saveTask = async (task: Partial<Task>) => {
   const db = getFirestore();
   const currentUid = getAuth()?.currentUser?.uid;
+  const updatedAt = new Date();
 
   if (task.id) {
     await updateDoc(doc(db, 'tasks', task.id), {
       ...task,
-      updatedAt: new Date(),
+      updatedAt,
     });
   } else {
     if (!currentUid) throw new Error('User not authenticated');
@@ -24,7 +25,8 @@ export const saveTask = async (task: Partial<Task>) => {
       accepted: true,
       originalOwnerId: currentUid,
       ownerId: currentUid,
-      createdAt: new Date(),
+      createdAt: updatedAt,
+      updatedAt,
     });
   }
 };

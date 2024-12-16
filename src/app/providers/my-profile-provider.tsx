@@ -49,7 +49,7 @@ export const MyProfileProvider = ({children}: {children: ReactNode}) => {
       (snapshot) => {
         const profile = snapshot.data() as Profile | undefined;
         setMyProfile(profile ? {...profile, id: snapshot.id} : null);
-        debugLog('Loaded user profile');
+        debugLog('Loaded user profile', profile);
       },
       (err) => {
         setError(

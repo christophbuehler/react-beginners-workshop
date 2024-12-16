@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'RoboChores',
-  description: 'Demo Project for a React Beginners Workshop',
+  description: 'Demo Project for a React Workshop',
 };
 
 export default function RootLayout({

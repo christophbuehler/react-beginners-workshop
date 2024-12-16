@@ -103,7 +103,7 @@ interface TaskListProps {
 export const TaskList = ({
   tasks,
   cols,
-  emptyMessage = 'No tasks found. 👀 Time to go home.',
+  emptyMessage = 'No tasks found. 👀',
 }: TaskListProps) => {
   const displayCols = Array.from(cols).map((col) => gridCols[col]);
   return (
@@ -133,7 +133,7 @@ export const TaskList = ({
           </TableBody>
         </Table>
       ) : (
-        <p className="text-center text-primary/80 py-2 inline-block">
+        <p className="w-full text-center text-primary/80 py-2 inline-block">
           {emptyMessage}
         </p>
       )}

@@ -1,11 +1,13 @@
 'use client';
 
 import {useAuth} from '@/hooks/use-auth';
+import {useError} from '@/hooks/use-error';
 import type {Task} from '@/hooks/use-tasks';
 import {
   collection,
   getFirestore,
   onSnapshot,
+  orderBy,
   query,
   where,
 } from 'firebase/firestore';
@@ -27,6 +29,7 @@ export interface InboxProviderProps {
 export const InboxProvider = ({children}: InboxProviderProps) => {
   const uid = useAuth()?.user?.uid;
   const [tasks, setTasks] = useState<Task[]>([]);
+  const {setError} = useError();
 
   useEffect(() => {
     const db = getFirestore();
@@ -35,17 +38,24 @@ export const InboxProvider = ({children}: InboxProviderProps) => {
       collection(db, 'tasks'),
       where('ownerId', '==', uid),
       where('accepted', '==', false),
+      orderBy('updatedAt', 'desc'),
     );
-    const unsubscribe = onSnapshot(tasksQuery, (snapshot) => {
-      const fetchedTasks: Task[] = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Task[];
-      setTasks(fetchedTasks);
-    });
+    const unsubscribe = onSnapshot(
+      tasksQuery,
+      (snapshot) => {
+        const fetchedTasks: Task[] = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Task[];
+        setTasks(fetchedTasks);
+      },
+      (err) => {
+        setError('Error fetching inbox', err.message);
+      },
+    );
 
     return () => unsubscribe();
-  }, [uid]);
+  }, [uid, setError]);
 
   return (
     <InboxContext.Provider value={{tasks}}>{children}</InboxContext.Provider>

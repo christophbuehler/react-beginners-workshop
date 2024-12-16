@@ -44,7 +44,7 @@ export const ProfileForm = () => {
       });
       router.push('/');
     } catch (err) {
-      setError(`Error saving profile: ${(err as Error).message}`);
+      setError('Error saving profile', (err as Error).message);
       setSaving(false);
     }
   };

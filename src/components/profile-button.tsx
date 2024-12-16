@@ -1,10 +1,12 @@
 'use client';
 
+import type {Profile} from '@/app/providers/my-profile-provider';
 import {Button} from '@/components/ui/button';
-import {useProfile} from '@/hooks/use-profile';
+import {fetchSnapshot} from '@/hooks/use-snapshot';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
+import {use} from 'react';
 
 interface ProfileButtonProps {
   profileId: string;
@@ -17,9 +19,7 @@ export const ProfileButton = ({
   link,
   variant = 'link',
 }: ProfileButtonProps) => {
-  const {profile} = useProfile(profileId);
-
-  if (!profile) return null;
+  const profile = use(fetchSnapshot<Profile>('users', profileId));
 
   console.log({profile});
 
@@ -40,7 +40,7 @@ export const ProfileButton = ({
       >
         <Image
           src={profile.profilePic}
-          alt={profile.name}
+          alt={profile.name ?? 'Profile'}
           width={22}
           height={22}
           className="rounded-full"

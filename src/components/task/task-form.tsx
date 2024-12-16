@@ -5,12 +5,11 @@ import {Input} from '@/components/ui/input';
 import {Label} from '@/components/ui/label';
 import {Textarea} from '@/components/ui/textarea';
 import {useError} from '@/hooks/use-error';
-import {useTask} from '@/hooks/use-task';
+import {fetchSnapshot} from '@/hooks/use-snapshot';
 import type {Task} from '@/hooks/use-tasks';
 import {saveTask} from '@/lib/save-task';
 import {useRouter} from 'next/navigation';
-import {useReducer, useState} from 'react';
-import LoadingIndicator from '../loading-indicator';
+import {use, useReducer, useState} from 'react';
 import TaskHeader from './task-header';
 import TaskSidebar from './task-sidebar';
 
@@ -39,11 +38,10 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
 };
 
 export default function TaskForm({taskId}: TaskFormProps) {
+  const task = use(fetchSnapshot<Task>('tasks', taskId ?? null));
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const {setError} = useError();
-  const {task, loading: taskLoading} = useTask(taskId);
-
   const [formState, dispatch] = useReducer(
     formReducer,
     task ?? {
@@ -53,7 +51,7 @@ export default function TaskForm({taskId}: TaskFormProps) {
   );
 
   const save = async () => {
-    setLoading(true);
+    setSaving(true);
     try {
       const taskData: Partial<Task> = {
         ...task,
@@ -63,14 +61,14 @@ export default function TaskForm({taskId}: TaskFormProps) {
       router.push('/');
     } catch {
       setError('Could not create task');
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  if (taskLoading) return <LoadingIndicator />;
+  console.log(task?.title, formState.title);
 
   const canSubmit =
-    !loading && formState.title.trim() && formState.content.trim();
+    !saving && formState.title?.trim() && formState.content.trim();
 
   return (
     <div className="grid grid-cols-3 gap-16">
@@ -87,7 +85,7 @@ export default function TaskForm({taskId}: TaskFormProps) {
               onChange={(e) =>
                 dispatch({type: 'SET_TITLE', payload: e.target.value})
               }
-              disabled={loading}
+              disabled={saving}
             />
           </div>
           <div className="space-y-2">
@@ -101,13 +99,13 @@ export default function TaskForm({taskId}: TaskFormProps) {
               onChange={(e) =>
                 dispatch({type: 'SET_CONTENT', payload: e.target.value})
               }
-              disabled={loading}
+              disabled={saving}
             />
           </div>
         </div>
         <div className="flex justify-end">
           <Button variant="outline" onClick={save} disabled={!canSubmit}>
-            {loading ? 'Saving...' : taskId ? 'Update Task' : 'Create Task'}
+            {saving ? 'Saving...' : taskId ? 'Update Task' : 'Create Task'}
           </Button>
         </div>
       </div>

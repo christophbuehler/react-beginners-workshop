@@ -12,6 +12,9 @@ import memoize from 'lodash.memoize';
 import {useEffect, useState} from 'react';
 import {useError} from './use-error';
 
+export const fetchSnapshot = <T>(path: string, documentId?: string | null) =>
+  memoizedFetchData(path, documentId) as Promise<T>;
+
 export const useSnapshot = <T>(
   path: string,
   documentId?: string | null,
@@ -27,6 +30,7 @@ export const useSnapshot = <T>(
       return;
     }
     const fetchDataWrapper = async () => {
+      setLoading(true);
       try {
         const cacheKey = documentId ? `${path}/${documentId}` : path;
         if (!forceFetch && memoizedFetchData.cache.has(cacheKey)) {
@@ -43,7 +47,7 @@ export const useSnapshot = <T>(
         const result = await memoizedFetchData(path, documentId);
         setData(result as T);
       } catch (err) {
-        setError(`Error fetching snapshot: ${(err as Error).message}`);
+        setError('Error fetching snapshot', (err as Error).message);
       } finally {
         setLoading(false);
       }
@@ -55,10 +59,12 @@ export const useSnapshot = <T>(
   return {data, loading};
 };
 
-export const fetchData = async (path: string, documentId?: string) => {
+export const fetchData = async (path: string, documentId?: string | null) => {
   const firestore = getFirestore();
 
   const random = Math.random();
+
+  if (documentId === null) return Promise.resolve(null);
 
   if (documentId) {
     const docRef = doc(firestore, path, documentId);

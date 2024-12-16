@@ -1,12 +1,12 @@
 'use client';
 
 import {useToast} from '@/components/ui/use-toast';
-import {type ReactNode, createContext, useState} from 'react';
+import {type ReactNode, createContext} from 'react';
+
+type setErrorType = (title: string, ...errorSegments: unknown[]) => void;
 
 interface ErrorContextType {
-  setError: (error: string) => void;
-  error: string | null;
-  clearError: () => void;
+  setError: setErrorType;
 }
 
 export const ErrorContext = createContext<ErrorContextType | undefined>(
@@ -15,23 +15,21 @@ export const ErrorContext = createContext<ErrorContextType | undefined>(
 
 export const ErrorProvider = ({children}: {children: ReactNode}) => {
   const {toast} = useToast();
-  const [error, setErrorState] = useState<string | null>(null);
 
-  const setError = (error: string) => {
-    setErrorState(error);
+  const setError: setErrorType = (
+    title: string,
+    ...errorSegments: unknown[]
+  ) => {
+    console.warn(title, errorSegments);
     toast({
-      title: 'Error',
-      description: error,
+      title,
+      description: errorSegments.join(', '),
       variant: 'destructive',
       duration: 5000,
     });
   };
 
-  const clearError = () => setErrorState(null);
-
   return (
-    <ErrorContext.Provider value={{error, setError, clearError}}>
-      {children}
-    </ErrorContext.Provider>
+    <ErrorContext.Provider value={{setError}}>{children}</ErrorContext.Provider>
   );
 };

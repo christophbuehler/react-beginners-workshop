@@ -54,7 +54,7 @@ const ProfilePicker = ({value, onChange}: ProfilePickerProps) => {
           <div className="flex items-center gap-2">
             <Image
               src={selectedProfile.profilePic}
-              alt={selectedProfile.name}
+              alt={selectedProfile.name ?? 'Profile'}
               width={30}
               height={30}
               className="rounded-full"
@@ -85,7 +85,7 @@ const ProfilePicker = ({value, onChange}: ProfilePickerProps) => {
               >
                 <Image
                   src={profile.profilePic}
-                  alt={profile.name}
+                  alt={profile.name ?? 'Profile'}
                   width={30}
                   height={30}
                   className="rounded-full"
