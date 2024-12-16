@@ -7,6 +7,7 @@ import {TooltipProvider} from '@/components/ui/tooltip';
 import {ErrorProvider} from './providers/error-provider';
 import {MyProfileProvider} from './providers/my-profile-provider';
 import '@/lib/firebase-config';
+import clsx from 'clsx';
 import {ThemeProvider} from 'next-themes';
 
 const geistSans = Geist({
@@ -33,7 +34,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={clsx(geistSans.variable, geistMono.variable, 'antialiased')}
       >
         <ThemeProvider
           attribute="class"

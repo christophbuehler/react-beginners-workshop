@@ -3,6 +3,7 @@
 import type {Task} from '@/hooks/use-tasks';
 import {acceptTask} from '@/lib/accept-task';
 import {TooltipTrigger} from '@radix-ui/react-tooltip';
+import clsx from 'clsx';
 import {Check, X} from 'lucide-react';
 import Link from 'next/link';
 import ProfileButton from '../profile-button';
@@ -123,7 +124,7 @@ export const TaskList = ({
             {tasks.map((task: Task) => (
               <TableRow className="hover:bg-transparent" key={task.id}>
                 {displayCols.map(([header, cell, cls]) => (
-                  <TableCell key={header} className={`${cls} align-middle`}>
+                  <TableCell key={header} className={clsx(cls, 'align-middle')}>
                     {cell(task)}
                   </TableCell>
                 ))}

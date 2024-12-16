@@ -5,6 +5,7 @@ import {Input} from '@/components/ui/input';
 import {Label} from '@/components/ui/label';
 import {useError} from '@/hooks/use-error';
 import {useMyProfile} from '@/hooks/use-my-profile';
+import clsx from 'clsx';
 import {getAuth, signOut} from 'firebase/auth';
 import {doc, getFirestore, setDoc} from 'firebase/firestore';
 import {LogOut} from 'lucide-react';
@@ -81,20 +82,22 @@ export const ProfileForm = () => {
             <div
               key={pic}
               onClick={() => setSelectedPic(pic)}
-              className={`select-none relative cursor-pointer rounded-lg flex items-center justify-center transition-all ${
+              className={clsx(
+                'select-none relative cursor-pointer rounded-lg flex items-center justify-center transition-all',
                 selectedPic === pic
                   ? 'ring-2 ring-primary'
-                  : 'ring-1 ring-border hover:ring-primary/60'
-              }`}
+                  : 'ring-1 ring-border hover:ring-primary/60',
+              )}
             >
               <Image
                 src={pic}
                 alt="Profile Picture"
                 width={80}
                 height={80}
-                className={`rounded-lg ${
-                  selectedPic === pic ? 'animate-grow-shake' : ''
-                }`}
+                className={clsx(
+                  'rounded-lg',
+                  selectedPic === pic ? 'animate-grow-shake' : '',
+                )}
               />
             </div>
           ))}
