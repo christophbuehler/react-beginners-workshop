@@ -95,10 +95,10 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
             onChange={() => router.push("/")}
           />
 
-          <hr />
-
           {!task.completed && (
             <>
+              <hr />
+
               <div className="flex flex-col gap-4">
                 <Button
                   disabled={loading}

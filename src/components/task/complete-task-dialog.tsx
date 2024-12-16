@@ -1,4 +1,9 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
 import { Task } from "@/hooks/use-tasks";
@@ -48,11 +53,11 @@ const CompleteTaskDialog = ({
         <DialogHeader>
           <DialogTitle>Complete Task</DialogTitle>
         </DialogHeader>
-        <p className="text-sm text-primary/80">
+        <DialogDescription className="text-sm text-primary/80">
           {differentOriginalOwnerId
             ? "This task will be completed and sent back to its owner."
             : "This task will be completed."}
-        </p>
+        </DialogDescription>
         <DialogFooter>
           <Button variant="outline" onClick={onClose} disabled={loading}>
             Cancel

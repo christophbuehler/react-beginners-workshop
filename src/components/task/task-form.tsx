@@ -44,17 +44,13 @@ export default function TaskForm({ taskId }: TaskFormProps) {
   const { setError } = useError();
   const { task, loading: taskLoading } = useTask(taskId);
 
-  const [formState, dispatch] = useReducer(formReducer, {
-    title: "",
-    content: "",
-  });
-
-  useEffect(() => {
-    if (task) {
-      dispatch({ type: "SET_TITLE", payload: task.title });
-      dispatch({ type: "SET_CONTENT", payload: task.content });
+  const [formState, dispatch] = useReducer(
+    formReducer,
+    task ?? {
+      title: "",
+      content: "",
     }
-  }, [task]);
+  );
 
   const save = async () => {
     setLoading(true);
@@ -72,6 +68,9 @@ export default function TaskForm({ taskId }: TaskFormProps) {
   };
 
   if (taskLoading) return <LoadingIndicator />;
+
+  const canSubmit =
+    !loading && formState.title.trim() && formState.content.trim();
 
   return (
     <div className="grid grid-cols-3 gap-16">
@@ -107,13 +106,7 @@ export default function TaskForm({ taskId }: TaskFormProps) {
           </div>
         </div>
         <div className="flex justify-end">
-          <Button
-            variant="outline"
-            onClick={save}
-            disabled={
-              loading || !formState.title.trim() || !formState.content.trim()
-            }
-          >
+          <Button variant="outline" onClick={save} disabled={!canSubmit}>
             {loading ? "Saving..." : taskId ? "Update Task" : "Create Task"}
           </Button>
         </div>

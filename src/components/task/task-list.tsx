@@ -17,6 +17,7 @@ import { acceptTask } from "@/lib/accept-task";
 import { Badge } from "../ui/badge";
 import { Tooltip, TooltipContent } from "../ui/tooltip";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
+import { TaskStatusBadge } from "./task-status-badge";
 
 export type TaskListCol =
   | "title"
@@ -63,21 +64,7 @@ export const TaskList = ({
         <ProfileButton variant="link" profileId={ownerId} showPopover={true} />
       ),
     ],
-    status: [
-      "Status",
-      ({ completed }) =>
-        completed ? (
-          <Badge variant="secondary" className="cursor-default gap-1">
-            <CheckCheck className="w-4 h-4" />
-            Completed
-          </Badge>
-        ) : (
-          <Badge className="cursor-default text-white bg-green-600 gap-1">
-            <Dot className="w-4 h-4" />
-            Open
-          </Badge>
-        ),
-    ],
+    status: ["Status", (task) => <TaskStatusBadge task={task} />],
     actions: [
       "Actions",
       (task) => (
@@ -148,7 +135,7 @@ export const TaskList = ({
             {tasks.map((task: Task) => (
               <TableRow className="hover:bg-transparent" key={task.id}>
                 {displayCols.map(([, cell, cls], i) => (
-                  <TableCell key={i} className={cls}>
+                  <TableCell key={i} className={`${cls} align-middle`}>
                     {cell(task)}
                   </TableCell>
                 ))}

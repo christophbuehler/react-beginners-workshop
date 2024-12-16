@@ -23,6 +23,8 @@ const ProfilePicker = ({ value, onChange }: ProfilePickerProps) => {
     setSelectedProfile(profile);
   }, [value, profiles]);
 
+  console.log({profiles});
+
   const filteredProfiles = profiles?.filter((profile) =>
     profile.name.toLowerCase().includes(search.toLowerCase())
   );

@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  DialogDescription,
 } from "../ui/dialog";
 import { Task } from "@/hooks/use-tasks";
 import ProfilePicker from "../profile-picker";
@@ -48,13 +49,11 @@ export default function OwnerChangeDialog({
         <DialogHeader>
           <DialogTitle>Delegate Task</DialogTitle>
         </DialogHeader>
-        <p className="text-sm text-primary/80">
+        <DialogDescription className="text-sm text-primary/80">
           You are about to change the owner of the task{" "}
           <strong>{task.title}</strong>.
-        </p>
-
+        </DialogDescription>
         <ProfilePicker value={task.ownerId} onChange={(id) => setOwnerId(id)} />
-
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
             Cancel

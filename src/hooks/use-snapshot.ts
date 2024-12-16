@@ -29,9 +29,8 @@ export const useSnapshot = <T>(
     const fetchDataWrapper = async () => {
       try {
         const cacheKey = documentId ? `${path}/${documentId}` : path;
-
         if (!forceFetch && memoizedFetchData.cache.has(cacheKey)) {
-          setData(memoizedFetchData.cache.get(cacheKey) as T);
+          setData((await memoizedFetchData.cache.get(cacheKey)) as T);
           setLoading(false);
           return;
         }
@@ -51,12 +50,6 @@ export const useSnapshot = <T>(
     };
 
     fetchDataWrapper();
-
-    return () => {
-      memoizedFetchData.cache.delete(
-        documentId ? `${path}/${documentId}` : path
-      );
-    };
   }, [path, documentId, forceFetch, setError]);
 
   return { data, loading };
@@ -65,9 +58,11 @@ export const useSnapshot = <T>(
 export const fetchData = async (path: string, documentId?: string) => {
   const firestore = getFirestore();
 
+  const random = Math.random();
+
   if (documentId) {
     const docRef = doc(firestore, path, documentId);
-    debugLog(`Fetching document '${documentId}' at path '${path}'.`);
+    debugLog(`Fetching document '${documentId}' at path '${path}'.`, random);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return { id: docSnap.id, ...docSnap.data() };
@@ -76,7 +71,7 @@ export const fetchData = async (path: string, documentId?: string) => {
   }
 
   const collectionRef = collection(firestore, path);
-  debugLog(`Fetching documents at path '${path}'.`);
+  debugLog(`Fetching documents at path '${path}'.`, random);
   const querySnapshot = await getDocs(collectionRef);
   return querySnapshot.docs.map((doc) => ({
     id: doc.id,
