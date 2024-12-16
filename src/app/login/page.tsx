@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/app/providers/auth-provider";
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
@@ -14,23 +13,27 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/logo";
+import { useAuth } from "@/hooks/use-auth";
 
-export default function Login() {
+const LoginPage = () => {
   const router = useRouter();
   const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const year = new Date().getFullYear();
 
   async function loginUser() {
     try {
+      setLoading(true);
       setError(null);
       await login(username, password);
-      router.push("/profile");
+      router.push("/");
     } catch {
       setError("Invalid username or password.");
     }
+    setLoading(false);
   }
 
   return (
@@ -69,8 +72,13 @@ export default function Login() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col items-center gap-4">
-          <Button type="button" className="w-full" onClick={loginUser}>
-            Sign In
+          <Button
+            disabled={loading}
+            type="button"
+            className="w-full"
+            onClick={loginUser}
+          >
+            {loading ? "Loading..." : "Sign In"}
           </Button>
           <div className="text-sm text-center text-muted-foreground">
             Don&apos;t have an account?{" "}
@@ -84,4 +92,6 @@ export default function Login() {
       </Card>
     </form>
   );
-}
+};
+
+export default LoginPage;

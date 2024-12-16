@@ -6,11 +6,10 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 interface TaskHeaderProps {
-  children: React.ReactNode;
   task?: Task | null;
 }
 
-export default function TaskHeader({ task, children }: TaskHeaderProps) {
+export default function TaskHeader({ task }: TaskHeaderProps) {
   const title = task?.title ?? "New Task";
   return (
     <>
@@ -24,7 +23,6 @@ export default function TaskHeader({ task, children }: TaskHeaderProps) {
         <div className="flex items-center gap-4">
           <h2 className="text-2xl font-semibold">{title}</h2>
         </div>
-        {children}
       </div>
     </>
   );

@@ -8,12 +8,7 @@ export const useTask = (
 ): {
   task: Task | null;
   loading: boolean;
-  error: string | null;
 } => {
-  if (!taskId) {
-    return { task: null, loading: false, error: null };
-  }
-
-  const { data: task, loading, error } = useSnapshot<Task>("tasks", taskId);
-  return { task, loading, error };
+  const { data: task, loading } = useSnapshot<Task>("tasks", taskId ?? null);
+  return { task, loading };
 };

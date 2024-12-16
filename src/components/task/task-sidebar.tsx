@@ -4,8 +4,8 @@ import { Label } from "@/components/ui/label";
 import OwnerChangeDialog from "./owner-change-dialog";
 import { Task } from "@/hooks/use-tasks";
 import { useState } from "react";
-import ProfileButton from "./profile-button";
-import { Button } from "./ui/button";
+import ProfileButton from "../profile-button";
+import { Button } from "../ui/button";
 import { CheckCheck, Send } from "lucide-react";
 import { saveTask } from "@/lib/save-task";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ export interface TaskSidebarProps {
   task: Task | null;
 }
 
-export default ({ task }: TaskSidebarProps) => {
+const TaskSidebar = ({ task }: TaskSidebarProps) => {
   const [showOwnerChangeDialog, setShowOwnerChangeDialog] = useState(false);
   const [showCompleteDialog, setShowCompleteDialog] = useState(false);
 
@@ -40,7 +40,7 @@ export default ({ task }: TaskSidebarProps) => {
         <strong className="font-bold">About Task Ownership</strong>
         Tasks are owned by the creator by default. You can assign tasks to other
         users, but they can only return the task to the owner. This ensures
-        clear ownership and accountability throughout the task's lifecycle.
+        clear ownership and accountability throughout the task&apos;s lifecycle.
       </p>
 
       {task && (
@@ -69,6 +69,7 @@ export default ({ task }: TaskSidebarProps) => {
 
             {isOriginalOwner ? (
               <Button
+                disabled={loading}
                 variant="secondary"
                 onClick={() => setShowOwnerChangeDialog(true)}
               >
@@ -76,7 +77,11 @@ export default ({ task }: TaskSidebarProps) => {
                 Delegate Task
               </Button>
             ) : (
-              <Button variant="secondary" onClick={sendToCreator}>
+              <Button
+                disabled={loading}
+                variant="secondary"
+                onClick={sendToCreator}
+              >
                 <Send />
                 Send Task back to Creator
               </Button>
@@ -93,6 +98,7 @@ export default ({ task }: TaskSidebarProps) => {
 
           <div className="flex flex-col gap-4">
             <Button
+              disabled={loading}
               variant="secondary"
               onClick={() => setShowCompleteDialog(true)}
             >
@@ -116,3 +122,5 @@ export default ({ task }: TaskSidebarProps) => {
     </div>
   );
 };
+
+export default TaskSidebar;

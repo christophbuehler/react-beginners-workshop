@@ -1,13 +1,13 @@
 import ProtectedLayout from "@/app/protected-layout";
-import TaskForm from "@/components/task-form";
+import TaskForm from "@/components/task/task-form";
 
-interface PageProps {
+interface TaskPageProps {
   params: Promise<{
     id: string;
   }>;
 }
 
-export default async ({ params }: PageProps) => {
+const TaskPage = async ({ params }: TaskPageProps) => {
   const { id: taskId } = await params;
   return (
     <ProtectedLayout>
@@ -15,3 +15,5 @@ export default async ({ params }: PageProps) => {
     </ProtectedLayout>
   );
 };
+
+export default TaskPage;

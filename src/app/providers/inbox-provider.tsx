@@ -8,8 +8,8 @@ import {
   where,
   getFirestore,
 } from "firebase/firestore";
-import { useMyProfile } from "@/hooks/use-my-profile";
 import { Task } from "@/hooks/use-tasks";
+import { useAuth } from "@/hooks/use-auth";
 
 interface InboxContextProps {
   tasks: Task[];
@@ -25,16 +25,15 @@ export interface InboxProviderProps {
 
 export const InboxProvider = ({ children }: InboxProviderProps) => {
   const db = getFirestore();
-
-  const { myProfile } = useMyProfile();
+  const uid = useAuth()?.user?.uid;
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    if (!myProfile?.id) return;
+    if (!uid) return;
 
     const tasksQuery = query(
       collection(db, "tasks"),
-      where("ownerId", "==", myProfile.id),
+      where("ownerId", "==", uid),
       where("accepted", "==", false)
     );
 
@@ -47,7 +46,7 @@ export const InboxProvider = ({ children }: InboxProviderProps) => {
     });
 
     return () => unsubscribe();
-  }, [myProfile?.id]);
+  }, [db, uid]);
 
   return (
     <InboxContext.Provider value={{ tasks }}>{children}</InboxContext.Provider>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/app/providers/auth-provider";
 import React, { useState } from "react";
 import { X } from "lucide-react";
 import Link from "next/link";
@@ -14,8 +13,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/logo";
+import { useAuth } from "@/hooks/use-auth";
 
-export default function Register() {
+const RegisterPage = () => {
   const router = useRouter();
   const { register } = useAuth();
   const [email, setEmail] = useState("");
@@ -96,4 +96,6 @@ export default function Register() {
       </Card>
     </form>
   );
-}
+};
+
+export default RegisterPage;

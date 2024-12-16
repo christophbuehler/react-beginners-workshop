@@ -1,13 +1,13 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
   DialogHeader,
   DialogFooter,
   Dialog,
   DialogContent,
   DialogTitle,
-} from "./ui/dialog";
+} from "../ui/dialog";
 import { Task } from "@/hooks/use-tasks";
-import ProfilePicker from "./profile-picker";
+import ProfilePicker from "../profile-picker";
 import { useState } from "react";
 import { saveTask } from "@/lib/save-task";
 

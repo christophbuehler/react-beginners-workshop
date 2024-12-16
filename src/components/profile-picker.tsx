@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useProfiles } from "@/hooks/use-profiles";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils"; // Helper to combine classNames
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Profile } from "@/app/providers/my-profile-provider";
 
@@ -72,7 +72,6 @@ const ProfilePicker = ({ value, onChange }: ProfilePickerProps) => {
         </div>
       )}
 
-      {/* Dropdown */}
       {search && !selectedProfile && (
         <div className="absolute z-10 w-full mt-1 bg-background border rounded-md shadow-lg">
           {filteredProfiles && filteredProfiles.length > 0 ? (

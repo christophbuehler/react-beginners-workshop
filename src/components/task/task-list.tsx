@@ -1,8 +1,8 @@
 "use client";
 
 import { Task } from "@/hooks/use-tasks";
-import ProfileButton from "./profile-button";
-import { Button } from "./ui/button";
+import ProfileButton from "../profile-button";
+import { Button } from "../ui/button";
 import {
   TableHeader,
   TableRow,
@@ -10,12 +10,12 @@ import {
   TableBody,
   TableCell,
   Table,
-} from "./ui/table";
+} from "../ui/table";
 import Link from "next/link";
 import { Check, X } from "lucide-react";
 import { acceptTask } from "@/lib/accept-task";
-import { Badge } from "./ui/badge";
-import { Tooltip, TooltipContent } from "./ui/tooltip";
+import { Badge } from "../ui/badge";
+import { Tooltip, TooltipContent } from "../ui/tooltip";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 
 export type TaskListCol =
@@ -32,7 +32,7 @@ interface TaskListProps {
   emptyMessage?: string;
 }
 
-export default ({
+export const TaskList = ({
   tasks,
   cols,
   emptyMessage = "No tasks found.",

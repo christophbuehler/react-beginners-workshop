@@ -1,10 +1,10 @@
-import TaskForm from "@/components/task-form";
+import TaskForm from "@/components/task/task-form";
 import ProtectedLayout from "../../protected-layout";
 
-export default function CreateTask() {
-  return (
-    <ProtectedLayout>
-      <TaskForm />
-    </ProtectedLayout>
-  );
-}
+const CreateTaskPage = () => (
+  <ProtectedLayout>
+    <TaskForm />
+  </ProtectedLayout>
+);
+
+export default CreateTaskPage;

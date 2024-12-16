@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+import React, { createContext, useState, useEffect, ReactNode } from "react";
 import { useFirebase } from "./firebase-provider";
 import {
   signInWithEmailAndPassword,
@@ -15,34 +9,29 @@ import {
   onAuthStateChanged,
   User,
 } from "firebase/auth";
-import LoadingIndicator from "@/components/loading-indicator";
+import { useError } from "@/hooks/use-error";
 
 interface AuthContextType {
-  isLoggedIn: boolean;
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
+  loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-
   const { auth } = useFirebase()!;
+  const { setError } = useError();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        setIsLoggedIn(true);
-      } else {
-        setUser(null);
-        setIsLoggedIn(false);
-      }
+      setUser(currentUser ?? null);
       setLoading(false);
     });
 
@@ -50,6 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [auth]);
 
   const login = async (email: string, password: string): Promise<void> => {
+    setLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -57,7 +47,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         password
       );
       setUser(userCredential.user);
-      setIsLoggedIn(true);
+      setLoading(false);
     } catch (error) {
       console.warn("Login failed:", error);
       throw error;
@@ -65,6 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const register = async (email: string, password: string): Promise<void> => {
+    setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -72,37 +63,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         password
       );
       setUser(userCredential.user);
-      setIsLoggedIn(true);
     } catch (error) {
       console.warn("Registration failed:", error);
       throw error;
     }
+    setLoading(false);
   };
 
   const logout = async (): Promise<void> => {
+    setLoading(true);
     try {
       await signOut(auth);
       setUser(null);
-      setIsLoggedIn(false);
     } catch (error) {
-      console.error("Logout failed:", error);
+      setError("Logout failed");
       throw error;
     }
+    setLoading(false);
   };
 
-  if (loading) {
-    return <LoadingIndicator />;
-  }
-
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout, register }}>
+    <AuthContext.Provider value={{ user, loading, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within an AuthProvider");
-  return context;
 };

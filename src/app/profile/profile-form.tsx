@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "../providers/auth-provider";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
@@ -11,6 +10,9 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useMyProfile } from "@/hooks/use-my-profile";
 import { LogOut } from "lucide-react";
 import { getAuth, signOut } from "firebase/auth";
+import { useAuth } from "@/hooks/use-auth";
+import { useError } from "@/hooks/use-error";
+import LoadingIndicator from "@/components/loading-indicator";
 
 const PROFILE_PIC_OPTIONS = Array.from(
   { length: 9 },
@@ -30,11 +32,12 @@ export const ProfileForm = () => {
   );
   const [isNewUser, setIsNewUser] = useState<boolean>(true);
   const [saving, setSaving] = useState<boolean>(false);
+  const { setError } = useError();
 
   useEffect(() => {
     if (myProfile) {
       setUsername(myProfile.name || "");
-      setSelectedPic(myProfile.profilePic || PROFILE_PIC_OPTIONS[0]);
+      setSelectedPic(myProfile?.profilePic || PROFILE_PIC_OPTIONS[0]);
       setIsNewUser(false);
     }
   }, [myProfile]);
@@ -54,8 +57,8 @@ export const ProfileForm = () => {
       });
 
       router.push("/");
-    } catch (error) {
-      console.error("Error saving profile:", error);
+    } catch (err) {
+      setError(`Error saving profile: ${(err as Error).message}`);
     }
     setSaving(false);
   };
@@ -65,7 +68,7 @@ export const ProfileForm = () => {
   };
 
   if (profileLoading) {
-    return <p>Loading...</p>;
+    return <LoadingIndicator />;
   }
 
   return (

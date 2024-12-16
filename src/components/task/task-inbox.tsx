@@ -1,12 +1,12 @@
 "use client";
 
-import TaskList, { TaskListCol } from "./task-list";
-import { Card } from "./ui/card";
+import { TaskList, TaskListCol } from "./task-list";
+import { Card } from "../ui/card";
 import { Info } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { useInbox } from "@/hooks/use-inbox";
 
-export default () => {
+const TaskInbox = () => {
   const { tasks } = useInbox();
   const cols = new Set<TaskListCol>(["title", "accept"]);
   return (
@@ -28,3 +28,5 @@ export default () => {
     </div>
   );
 };
+
+export default TaskInbox;

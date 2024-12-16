@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default () => (
+const Logo = () => (
   <Link href="/">
     <div className="cursor-pointer inline-flex">
       <div className="font-bold">Robo</div>
@@ -8,3 +8,5 @@ export default () => (
     </div>
   </Link>
 );
+
+export default Logo;

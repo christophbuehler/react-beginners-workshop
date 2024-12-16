@@ -1,5 +1,6 @@
 {
   "name": "react-beginners-workshop",
+  "author": "Christoph Bühler",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,6 +16,7 @@
     "@radix-ui/react-popover": "^1.1.3",
     "@radix-ui/react-separator": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.1",
+    "@radix-ui/react-toast": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.1.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -30,12 +32,14 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/eslint-plugin-next": "^15.1.0",
     "@types/lodash.memoize": "^4",
     "@types/node": "^20",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "postcss": "^8",
     "react": "^16.8 || ^17.0 || ^18.0 || ^19.0",
     "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0",

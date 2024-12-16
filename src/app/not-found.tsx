@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -5,9 +7,9 @@ export default function NotFound() {
       <p className="mt-4 text-gray-500">
         Oops! The page you’re looking for doesn’t exist.
       </p>
-      <a href="/" className="mt-6 text-blue-500 hover:underline">
+      <Link href="/" className="mt-6 text-blue-500 hover:underline">
         Go back to Home
-      </a>
+      </Link>
     </div>
   );
 }

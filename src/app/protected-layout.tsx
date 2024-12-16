@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/app/providers/auth-provider";
 import Toolbar from "@/components/toolbar";
 import { useMyProfile } from "@/hooks/use-my-profile";
 import { useRouter, usePathname } from "next/navigation";
@@ -8,9 +7,11 @@ import React, { useEffect } from "react";
 import { InboxProvider } from "./providers/inbox-provider";
 import { MyTasksProvider } from "./providers/my-tasks-provider";
 import LoadingIndicator from "@/components/loading-indicator";
+import { useAuth } from "@/hooks/use-auth";
 
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isLoggedIn } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const isLoggedIn = !!user;
   const { myProfile, loading: profileLoading } = useMyProfile();
   const router = useRouter();
   const pathname = usePathname();
@@ -28,7 +29,7 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }, [isLoggedIn, router, profileLoading, myProfile, pathname]);
 
-  if (!isLoggedIn || profileLoading) {
+  if (authLoading || !isLoggedIn || profileLoading) {
     return <LoadingIndicator />;
   }
 

@@ -1,15 +1,15 @@
 "use client";
 
 import React, { createContext, ReactNode, useState, useEffect } from "react";
-import { useAuth } from "./auth-provider";
 import { doc, getFirestore, onSnapshot, Timestamp } from "firebase/firestore";
+import { useAuth } from "@/hooks/use-auth";
 
 export interface Profile {
   id: string;
   name: string;
   createdAt: Date;
   updatedAt: Timestamp;
-  [key: string]: any;
+  profilePic: string;
 }
 
 interface MyProfileContextType {
@@ -26,11 +26,12 @@ export const MyProfileProvider = ({ children }: { children: ReactNode }) => {
   const uid = useAuth()?.user?.uid;
   const db = getFirestore();
   const [myProfile, setMyProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!uid) return;
+    setLoading(true);
     const docRef = doc(db, "users", uid);
     const unsubscribe = onSnapshot(
       docRef,
@@ -47,7 +48,7 @@ export const MyProfileProvider = ({ children }: { children: ReactNode }) => {
       }
     );
     return () => unsubscribe();
-  }, [uid]);
+  }, [db, uid]);
 
   return (
     <MyProfileContext.Provider value={{ myProfile, error, loading }}>

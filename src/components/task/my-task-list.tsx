@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import TaskList, { TaskListCol } from "./task-list";
+import { TaskList, TaskListCol } from "./task-list";
 import { Plus } from "lucide-react";
 import { useMyTasks } from "@/hooks/use-my-tasks";
 

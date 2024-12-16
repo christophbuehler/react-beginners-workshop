@@ -1,13 +1,14 @@
 "use client";
 
 import { useSnapshot } from "@/hooks/use-snapshot";
+import { Timestamp } from "firebase/firestore";
 
 export interface Task {
   id: string;
   title: string;
   content: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
   ownerId: string;
   originalOwnerId: string;
   completed: boolean;
@@ -17,8 +18,8 @@ export interface Task {
 export const useTasks = (): {
   tasks: Task[];
   loading: boolean;
-  error: string | null;
 } => {
-  const { data: tasks, loading, error } = useSnapshot<Task[]>("tasks");
-  return { tasks: tasks || [], loading, error };
+  const { data: tasks, loading } = useSnapshot<Task[]>("tasks");
+  const safeTasks = Array.isArray(tasks) ? tasks : [];
+  return { tasks: safeTasks, loading };
 };

@@ -1,3 +1,15 @@
+# RoboChores
+
+A simple task management system to learn React and modern web development.
+
+## **Stack**
+
+- [**Firebase**](https://firebase.google.com/) with [Firestore Database](https://firebase.google.com/products/firestore)
+- [**Next.js 15.1**](https://nextjs.org/docs) with **App Router**
+- [**React 19**](https://react.dev/)
+- [**shadcn Component Library**](https://ui.shadcn.com/)
+- [**Tailwind CSS**](https://tailwindcss.com/)
+
 # Development
 
 ```bash

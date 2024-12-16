@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import {
   onSnapshot,
   query,
@@ -8,8 +8,8 @@ import {
   where,
   getFirestore,
 } from "firebase/firestore";
-import { useMyProfile } from "@/hooks/use-my-profile";
 import { Task } from "@/hooks/use-tasks";
+import { useAuth } from "@/hooks/use-auth";
 
 interface MyTasksContextProps {
   tasks: Task[];
@@ -25,16 +25,15 @@ export interface MyTasksProviderProps {
 
 export const MyTasksProvider = ({ children }: MyTasksProviderProps) => {
   const db = getFirestore();
-
-  const { myProfile } = useMyProfile();
+  const uid = useAuth()?.user?.uid;
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
-    if (!myProfile?.id) return;
+    if (!uid) return;
 
     const tasksQuery = query(
       collection(db, "tasks"),
-      where("ownerId", "==", myProfile.id),
+      where("ownerId", "==", uid),
       where("accepted", "==", true)
     );
 
@@ -47,7 +46,7 @@ export const MyTasksProvider = ({ children }: MyTasksProviderProps) => {
     });
 
     return () => unsubscribe();
-  }, [myProfile?.id]);
+  }, [db, uid]);
 
   return (
     <MyTasksContext.Provider value={{ tasks }}>
