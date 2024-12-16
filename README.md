@@ -1,9 +1,10 @@
 # RoboChores
 
-A task management system for robots. Project created for hosting beginner React Workshop.
+A task management system for robots. Project created for beginner React Workshop at [Swiss Life (Schweiz)](https://www.swisslife.ch/).
 
 ![Preview](preview-0.png)
 ![Preview](preview-1.png)
+![Preview](preview-2.png)
 
 ## **Stack**
 
