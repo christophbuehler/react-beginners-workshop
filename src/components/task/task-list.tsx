@@ -12,9 +12,8 @@ import {
   Table,
 } from "../ui/table";
 import Link from "next/link";
-import { Check, CheckCheck, Dot, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { acceptTask } from "@/lib/accept-task";
-import { Badge } from "../ui/badge";
 import { Tooltip, TooltipContent } from "../ui/tooltip";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { TaskStatusBadge } from "./task-status-badge";

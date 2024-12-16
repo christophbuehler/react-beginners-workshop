@@ -11,7 +11,6 @@ import { useMyProfile } from "@/hooks/use-my-profile";
 import { LogOut } from "lucide-react";
 import { getAuth, signOut } from "firebase/auth";
 import { useError } from "@/hooks/use-error";
-import LoadingIndicator from "@/components/loading-indicator";
 
 const PROFILE_PIC_OPTIONS = Array.from(
   { length: 9 },
@@ -20,7 +19,7 @@ const PROFILE_PIC_OPTIONS = Array.from(
 
 export const ProfileForm = () => {
   const auth = getAuth();
-  const { myProfile, loading: profileLoading } = useMyProfile();
+  const { myProfile } = useMyProfile();
   const router = useRouter();
   const db = getFirestore();
   const [username, setUsername] = useState<string>(myProfile?.name ?? "");
@@ -52,8 +51,6 @@ export const ProfileForm = () => {
   const handleSignOut = async () => {
     await signOut(auth);
   };
-
-  if (profileLoading) return <LoadingIndicator />;
 
   return (
     <div className="max-w-lg mx-auto p-6 space-y-6">

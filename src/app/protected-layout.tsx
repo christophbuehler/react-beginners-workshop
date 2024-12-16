@@ -10,15 +10,13 @@ import LoadingIndicator from "@/components/loading-indicator";
 import { useAuth } from "@/hooks/use-auth";
 
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading: authLoading } = useAuth();
+  const { user } = useAuth();
   const isLoggedIn = !!user;
-  const { myProfile, loading: profileLoading } = useMyProfile();
+  const { myProfile } = useMyProfile();
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    if (profileLoading) return;
-
     if (!isLoggedIn) {
       router.push("/login");
       return;
@@ -27,11 +25,9 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
     if (!myProfile && pathname !== "/profile") {
       router.push("/profile");
     }
-  }, [isLoggedIn, router, profileLoading, myProfile, pathname]);
+  }, [isLoggedIn, router, myProfile, pathname]);
 
-  if (authLoading || !isLoggedIn || profileLoading) {
-    return <LoadingIndicator />;
-  }
+  if (!isLoggedIn) return <LoadingIndicator />;
 
   return (
     <InboxProvider>

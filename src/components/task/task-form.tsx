@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useTask } from "@/hooks/use-task";
 import { useRouter } from "next/navigation";
-import { useEffect, useReducer, useState } from "react";
+import { useReducer, useState } from "react";
 import { saveTask } from "@/lib/save-task";
 import TaskHeader from "./task-header";
 import TaskSidebar from "./task-sidebar";
