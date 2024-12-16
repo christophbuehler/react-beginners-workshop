@@ -1,24 +1,19 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { X } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Logo from "@/components/logo";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import Logo from '@/components/logo';
+import {Button} from '@/components/ui/button';
+import {Card, CardContent, CardFooter, CardHeader} from '@/components/ui/card';
+import {Input} from '@/components/ui/input';
+import {getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import {X} from 'lucide-react';
+import Link from 'next/link';
+import {useRouter} from 'next/navigation';
+import {useState} from 'react';
 
 const LoginPage = () => {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const year = new Date().getFullYear();
@@ -29,14 +24,14 @@ const LoginPage = () => {
       setLoading(true);
       setError(null);
       await signInWithEmailAndPassword(auth, username, password);
-      router.push("/");
+      router.push('/');
     } catch {
-      setError("Invalid username or password.");
+      setError('Invalid username or password.');
     }
     setLoading(false);
   }
 
-  console.log({ error });
+  console.log({error});
 
   return (
     <form className="flex min-h-screen items-center justify-center bg-background">
@@ -80,10 +75,10 @@ const LoginPage = () => {
             className="w-full"
             onClick={loginUser}
           >
-            {loading ? "Loading..." : "Sign In"}
+            {loading ? 'Loading...' : 'Sign In'}
           </Button>
           <div className="text-sm text-center text-muted-foreground">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <Link href="/register" className="text-primary hover:underline">
               Sign up here
             </Link>

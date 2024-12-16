@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { useProfiles } from "@/hooks/use-profiles";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { Profile } from "@/app/providers/my-profile-provider";
+import type {Profile} from '@/app/providers/my-profile-provider';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {useProfiles} from '@/hooks/use-profiles';
+import {cn} from '@/lib/utils';
+import Image from 'next/image';
+import {useEffect, useState} from 'react';
 
 interface ProfilePickerProps {
   value?: string | null;
   onChange: (id: string | null) => void;
 }
 
-const ProfilePicker = ({ value, onChange }: ProfilePickerProps) => {
-  const { profiles } = useProfiles();
-  const [search, setSearch] = useState("");
+const ProfilePicker = ({value, onChange}: ProfilePickerProps) => {
+  const {profiles} = useProfiles();
+  const [search, setSearch] = useState('');
   const [selectedProfile, setSelectedProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
@@ -26,12 +26,12 @@ const ProfilePicker = ({ value, onChange }: ProfilePickerProps) => {
   console.log({profiles});
 
   const filteredProfiles = profiles?.filter((profile) =>
-    profile.name.toLowerCase().includes(search.toLowerCase())
+    profile.name.toLowerCase().includes(search.toLowerCase()),
   );
 
   const handleSelect = (profile: Profile) => {
     setSelectedProfile(profile);
-    setSearch("");
+    setSearch('');
     onChange(profile.id);
   };
 
@@ -48,7 +48,7 @@ const ProfilePicker = ({ value, onChange }: ProfilePickerProps) => {
           placeholder="Search and select a profile..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          onFocus={() => setSearch("")}
+          onFocus={() => setSearch('')}
           className="rounded-md"
         />
       ) : (
@@ -82,7 +82,7 @@ const ProfilePicker = ({ value, onChange }: ProfilePickerProps) => {
                 key={profile.id}
                 onClick={() => handleSelect(profile)}
                 className={cn(
-                  "flex items-center gap-3 p-2 cursor-pointer hover:bg-accent"
+                  'flex items-center gap-3 p-2 cursor-pointer hover:bg-accent',
                 )}
               >
                 <Image

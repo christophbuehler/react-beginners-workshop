@@ -1,16 +1,16 @@
+import {Button} from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { DialogHeader, DialogFooter } from "@/components/ui/dialog";
-import { Task } from "@/hooks/use-tasks";
-import { saveTask } from "@/lib/save-task";
-import { useState } from "react";
-import { useMyProfile } from "@/hooks/use-my-profile";
-import { useError } from "@/hooks/use-error";
+} from '@/components/ui/dialog';
+import {DialogFooter, DialogHeader} from '@/components/ui/dialog';
+import {useError} from '@/hooks/use-error';
+import {useMyProfile} from '@/hooks/use-my-profile';
+import type {Task} from '@/hooks/use-tasks';
+import {saveTask} from '@/lib/save-task';
+import {useState} from 'react';
 
 export interface CompleteTaskDialogProps {
   task: Task;
@@ -26,8 +26,8 @@ const CompleteTaskDialog = ({
   onComplete,
 }: CompleteTaskDialogProps) => {
   const [loading, setLoading] = useState(false);
-  const { myProfile } = useMyProfile();
-  const { setError } = useError();
+  const {myProfile} = useMyProfile();
+  const {setError} = useError();
 
   const complete = async () => {
     try {
@@ -39,7 +39,7 @@ const CompleteTaskDialog = ({
       });
       onComplete();
     } catch {
-      setError("Could not complete task");
+      setError('Could not complete task');
       setLoading(false);
     }
   };
@@ -55,15 +55,15 @@ const CompleteTaskDialog = ({
         </DialogHeader>
         <DialogDescription className="text-sm text-primary/80">
           {differentOriginalOwnerId
-            ? "This task will be completed and sent back to its owner."
-            : "This task will be completed."}
+            ? 'This task will be completed and sent back to its owner.'
+            : 'This task will be completed.'}
         </DialogDescription>
         <DialogFooter>
           <Button variant="outline" onClick={onClose} disabled={loading}>
             Cancel
           </Button>
           <Button variant="destructive" onClick={complete} disabled={loading}>
-            {loading ? "Completing..." : "Confirm"}
+            {loading ? 'Completing...' : 'Confirm'}
           </Button>
         </DialogFooter>
       </DialogContent>

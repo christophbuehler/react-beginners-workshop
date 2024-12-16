@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { debugLog } from "@/lib/log";
+import {debugLog} from '@/lib/log';
 import {
-  getFirestore,
+  collection,
   doc,
   getDoc,
-  collection,
   getDocs,
-} from "firebase/firestore";
-import memoize from "lodash.memoize";
-import { useEffect, useState } from "react";
-import { useError } from "./use-error";
+  getFirestore,
+} from 'firebase/firestore';
+import memoize from 'lodash.memoize';
+import {useEffect, useState} from 'react';
+import {useError} from './use-error';
 
 export const useSnapshot = <T>(
   path: string,
   documentId?: string | null,
-  forceFetch: boolean = false
-): { data: T | null; loading: boolean } => {
+  forceFetch = false,
+): {data: T | null; loading: boolean} => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const { setError } = useError();
+  const {setError} = useError();
 
   useEffect(() => {
     if (documentId === null) {
@@ -52,7 +52,7 @@ export const useSnapshot = <T>(
     fetchDataWrapper();
   }, [path, documentId, forceFetch, setError]);
 
-  return { data, loading };
+  return {data, loading};
 };
 
 export const fetchData = async (path: string, documentId?: string) => {
@@ -65,7 +65,7 @@ export const fetchData = async (path: string, documentId?: string) => {
     debugLog(`Fetching document '${documentId}' at path '${path}'.`, random);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() };
+      return {id: docSnap.id, ...docSnap.data()};
     }
     throw new Error(`Document at path "${path}/${documentId}" does not exist.`);
   }
@@ -80,5 +80,5 @@ export const fetchData = async (path: string, documentId?: string) => {
 };
 
 export const memoizedFetchData = memoize(fetchData, (path, documentId) =>
-  documentId ? `${path}/${documentId}` : path
+  documentId ? `${path}/${documentId}` : path,
 );

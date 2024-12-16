@@ -1,17 +1,17 @@
-import { Button } from "../ui/button";
+import {useError} from '@/hooks/use-error';
+import type {Task} from '@/hooks/use-tasks';
+import {saveTask} from '@/lib/save-task';
+import {useState} from 'react';
+import ProfilePicker from '../profile-picker';
+import {Button} from '../ui/button';
 import {
-  DialogHeader,
-  DialogFooter,
   Dialog,
   DialogContent,
-  DialogTitle,
   DialogDescription,
-} from "../ui/dialog";
-import { Task } from "@/hooks/use-tasks";
-import ProfilePicker from "../profile-picker";
-import { useState } from "react";
-import { saveTask } from "@/lib/save-task";
-import { useError } from "@/hooks/use-error";
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog';
 
 export interface OwnerChangeDialogProps {
   open: boolean;
@@ -29,16 +29,16 @@ export default function OwnerChangeDialog({
   const [ownerId, setOwnerId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const disabled = !ownerId || ownerId === task.ownerId;
-  const { setError } = useError();
+  const {setError} = useError();
 
   const changeOwner = async () => {
     try {
       if (disabled) return;
       setLoading(true);
-      await saveTask({ id: task.id, ownerId, accepted: false });
+      await saveTask({id: task.id, ownerId, accepted: false});
       onChange();
     } catch {
-      setError("Could not delegate task");
+      setError('Could not delegate task');
       setLoading(false);
     }
   };
@@ -50,7 +50,7 @@ export default function OwnerChangeDialog({
           <DialogTitle>Delegate Task</DialogTitle>
         </DialogHeader>
         <DialogDescription className="text-sm text-primary/80">
-          You are about to change the owner of the task{" "}
+          You are about to change the owner of the task{' '}
           <strong>{task.title}</strong>.
         </DialogDescription>
         <ProfilePicker value={task.ownerId} onChange={(id) => setOwnerId(id)} />
@@ -63,7 +63,7 @@ export default function OwnerChangeDialog({
             variant="destructive"
             onClick={changeOwner}
           >
-            {loading ? "Delegating..." : "Delegate Task"}
+            {loading ? 'Delegating...' : 'Delegate Task'}
           </Button>
         </DialogFooter>
       </DialogContent>

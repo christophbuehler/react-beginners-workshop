@@ -1,25 +1,20 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { X } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
-import Logo from "@/components/logo";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import Logo from '@/components/logo';
+import {Button} from '@/components/ui/button';
+import {Card, CardContent, CardFooter, CardHeader} from '@/components/ui/card';
+import {Input} from '@/components/ui/input';
+import {createUserWithEmailAndPassword, getAuth} from 'firebase/auth';
+import {X} from 'lucide-react';
+import Link from 'next/link';
+import {useRouter} from 'next/navigation';
+import {useState} from 'react';
 
 const RegisterPage = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const year = new Date().getFullYear();
@@ -28,16 +23,16 @@ const RegisterPage = () => {
     const auth = getAuth();
     try {
       if (password !== confirmPassword) {
-        setError("Passwords do not match.");
+        setError('Passwords do not match.');
         return;
       }
 
       setLoading(true);
       setError(null);
       await createUserWithEmailAndPassword(auth, email, password);
-      router.push("/profile");
+      router.push('/profile');
     } catch {
-      setError("Failed to create an account.");
+      setError('Failed to create an account.');
     }
     setLoading(false);
   }
@@ -91,10 +86,10 @@ const RegisterPage = () => {
             className="w-full"
             onClick={registerUser}
           >
-            {loading ? "Loading..." : "Sign Up"}
+            {loading ? 'Loading...' : 'Sign Up'}
           </Button>
           <div className="text-sm text-center text-muted-foreground">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link href="/login" className="text-primary hover:underline">
               Log in here
             </Link>

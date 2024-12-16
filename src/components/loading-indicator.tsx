@@ -1,4 +1,4 @@
-import Logo from "./logo";
+import Logo from './logo';
 
 const LoadingIndicator = () => (
   <div className="inset-0 absolute flex items-center justify-center opacity-40">

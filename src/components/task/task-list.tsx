@@ -1,21 +1,21 @@
 "use client";
 
-import { Task } from "@/hooks/use-tasks";
+import type { Task } from "@/hooks/use-tasks";
+import { acceptTask } from "@/lib/accept-task";
+import { TooltipTrigger } from "@radix-ui/react-tooltip";
+import { Check, X } from "lucide-react";
+import Link from "next/link";
 import ProfileButton from "../profile-button";
 import { Button } from "../ui/button";
 import {
-  TableHeader,
-  TableRow,
-  TableHead,
+  Table,
   TableBody,
   TableCell,
-  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "../ui/table";
-import Link from "next/link";
-import { Check, X } from "lucide-react";
-import { acceptTask } from "@/lib/accept-task";
 import { Tooltip, TooltipContent } from "../ui/tooltip";
-import { TooltipTrigger } from "@radix-ui/react-tooltip";
 import { TaskStatusBadge } from "./task-status-badge";
 
 export type TaskListCol =
@@ -55,9 +55,7 @@ export const TaskList = ({
     ],
     owner: [
       "Owner",
-      ({ ownerId }) => (
-        <ProfileButton variant="link" profileId={ownerId} />
-      ),
+      ({ ownerId }) => <ProfileButton variant="link" profileId={ownerId} />,
     ],
     status: ["Status", (task) => <TaskStatusBadge task={task} />],
     actions: [

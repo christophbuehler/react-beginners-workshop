@@ -1,29 +1,30 @@
-"use client";
+'use client';
 
-import React, { createContext, useState, useEffect } from "react";
+import {useAuth} from '@/hooks/use-auth';
+import type {Task} from '@/hooks/use-tasks';
 import {
+  collection,
+  getFirestore,
   onSnapshot,
   query,
-  collection,
   where,
-  getFirestore,
-} from "firebase/firestore";
-import { Task } from "@/hooks/use-tasks";
-import { useAuth } from "@/hooks/use-auth";
+} from 'firebase/firestore';
+import type React from 'react';
+import {createContext, useEffect, useState} from 'react';
 
 interface InboxContextProps {
   tasks: Task[];
 }
 
 export const InboxContext = createContext<InboxContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export interface InboxProviderProps {
   children: React.ReactNode;
 }
 
-export const InboxProvider = ({ children }: InboxProviderProps) => {
+export const InboxProvider = ({children}: InboxProviderProps) => {
   const uid = useAuth()?.user?.uid;
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -31,9 +32,9 @@ export const InboxProvider = ({ children }: InboxProviderProps) => {
     const db = getFirestore();
     if (!uid) return;
     const tasksQuery = query(
-      collection(db, "tasks"),
-      where("ownerId", "==", uid),
-      where("accepted", "==", false)
+      collection(db, 'tasks'),
+      where('ownerId', '==', uid),
+      where('accepted', '==', false),
     );
     const unsubscribe = onSnapshot(tasksQuery, (snapshot) => {
       const fetchedTasks: Task[] = snapshot.docs.map((doc) => ({
@@ -47,6 +48,6 @@ export const InboxProvider = ({ children }: InboxProviderProps) => {
   }, [uid]);
 
   return (
-    <InboxContext.Provider value={{ tasks }}>{children}</InboxContext.Provider>
+    <InboxContext.Provider value={{tasks}}>{children}</InboxContext.Provider>
   );
 };

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useSnapshot } from "@/hooks/use-snapshot";
-import { Timestamp } from "firebase/firestore";
+import {useSnapshot} from '@/hooks/use-snapshot';
+import type {Timestamp} from 'firebase/firestore';
 
 export interface Task {
   id: string;
@@ -19,7 +19,7 @@ export const useTasks = (): {
   tasks: Task[];
   loading: boolean;
 } => {
-  const { data: tasks, loading } = useSnapshot<Task[]>("tasks");
+  const {data: tasks, loading} = useSnapshot<Task[]>('tasks');
   const safeTasks = Array.isArray(tasks) ? tasks : [];
-  return { tasks: safeTasks, loading };
+  return {tasks: safeTasks, loading};
 };

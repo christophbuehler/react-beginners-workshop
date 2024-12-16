@@ -1,5 +1,5 @@
-import ProtectedLayout from "../protected-layout";
-import { ProfileForm } from "./profile-form";
+import ProtectedLayout from '../protected-layout';
+import {ProfileForm} from './profile-form';
 
 const ProfilePage = () => (
   <ProtectedLayout>
