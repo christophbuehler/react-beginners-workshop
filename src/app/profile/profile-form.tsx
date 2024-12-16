@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -24,7 +24,7 @@ export const ProfileForm = () => {
   const { myProfile, loading: profileLoading } = useMyProfile();
   const { user } = useAuth();
   const router = useRouter();
-  const db = getFirestore();
+  const db = useMemo(() => getFirestore(), []);
 
   const [username, setUsername] = useState<string>("");
   const [selectedPic, setSelectedPic] = useState<string>(

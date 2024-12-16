@@ -12,7 +12,7 @@ import {
   Table,
 } from "../ui/table";
 import Link from "next/link";
-import { Check, X } from "lucide-react";
+import { Check, CheckCheck, Dot, X } from "lucide-react";
 import { acceptTask } from "@/lib/accept-task";
 import { Badge } from "../ui/badge";
 import { Tooltip, TooltipContent } from "../ui/tooltip";
@@ -67,11 +67,15 @@ export const TaskList = ({
       "Status",
       ({ completed }) =>
         completed ? (
-          <Badge variant="destructive" className="cursor-default">
+          <Badge variant="secondary" className="cursor-default gap-1">
+            <CheckCheck className="w-4 h-4" />
             Completed
           </Badge>
         ) : (
-          <Badge className="cursor-default text-white bg-green-600">Open</Badge>
+          <Badge className="cursor-default text-white bg-green-600 gap-1">
+            <Dot className="w-4 h-4" />
+            Open
+          </Badge>
         ),
     ],
     actions: [

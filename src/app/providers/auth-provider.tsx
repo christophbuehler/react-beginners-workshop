@@ -10,6 +10,8 @@ import {
   User,
 } from "firebase/auth";
 import { useError } from "@/hooks/use-error";
+import LoadingIndicator from "@/components/loading-indicator";
+import { debugLog } from "@/lib/log";
 
 interface AuthContextType {
   user: User | null;
@@ -30,8 +32,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { setError } = useError();
 
   useEffect(() => {
+    debugLog("Subscribe to auth state changes");
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("AUTH", currentUser);
       setUser(currentUser ?? null);
+      debugLog("Auth state:", currentUser);
       setLoading(false);
     });
 
@@ -81,6 +86,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     setLoading(false);
   };
+
+  if (loading) return <LoadingIndicator />;
 
   return (
     <AuthContext.Provider value={{ user, loading, login, logout, register }}>

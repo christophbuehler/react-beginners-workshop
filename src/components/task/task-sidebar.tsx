@@ -116,6 +116,7 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
           <CompleteTaskDialog
             open={showCompleteDialog}
             onClose={() => setShowCompleteDialog(false)}
+            onComplete={() => router.push("/")}
             task={task}
           />
         </>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useMemo } from "react";
 import {
   onSnapshot,
   query,
@@ -24,7 +24,7 @@ export interface MyTasksProviderProps {
 }
 
 export const MyTasksProvider = ({ children }: MyTasksProviderProps) => {
-  const db = getFirestore();
+  const db = useMemo(() => getFirestore(), []);
   const uid = useAuth()?.user?.uid;
   const [tasks, setTasks] = useState<Task[]>([]);
 

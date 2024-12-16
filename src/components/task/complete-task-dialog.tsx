@@ -5,26 +5,38 @@ import { Task } from "@/hooks/use-tasks";
 import { saveTask } from "@/lib/save-task";
 import { useState } from "react";
 import { useMyProfile } from "@/hooks/use-my-profile";
+import { useError } from "@/hooks/use-error";
 
 export interface CompleteTaskDialogProps {
   task: Task;
   open: boolean;
   onClose: () => void;
+  onComplete: () => void;
 }
 
-export default function CompleteTaskDialog({
+const CompleteTaskDialog = ({
   task,
   open,
   onClose,
-}: CompleteTaskDialogProps) {
+  onComplete,
+}: CompleteTaskDialogProps) => {
   const [loading, setLoading] = useState(false);
   const { myProfile } = useMyProfile();
+  const { setError } = useError();
 
   const complete = async () => {
-    setLoading(true);
-    await saveTask({ ...task, ownerId: task.originalOwnerId, completed: true });
-    setLoading(false);
-    onClose();
+    try {
+      setLoading(true);
+      await saveTask({
+        ...task,
+        ownerId: task.originalOwnerId,
+        completed: true,
+      });
+      onComplete();
+    } catch {
+      setError("Could not complete task");
+      setLoading(false);
+    }
   };
 
   const differentOriginalOwnerId =
@@ -52,4 +64,6 @@ export default function CompleteTaskDialog({
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default CompleteTaskDialog;
