@@ -2,7 +2,6 @@
 
 import {useInbox} from '@/hooks/use-inbox';
 import {Info} from 'lucide-react';
-import {Card} from '../ui/card';
 import {Tooltip, TooltipContent, TooltipTrigger} from '../ui/tooltip';
 import {TaskList, type TaskListCol} from './task-list';
 
@@ -22,9 +21,7 @@ const TaskInbox = () => {
           </TooltipContent>
         </Tooltip>
       </h1>
-      <Card>
-        <TaskList emptyMessage="Inbox is empty." cols={cols} tasks={tasks} />
-      </Card>
+      <TaskList emptyMessage="Inbox is empty. 🙌" cols={cols} tasks={tasks} />
     </div>
   );
 };

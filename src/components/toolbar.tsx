@@ -9,7 +9,7 @@ export const Toolbar = () => {
   const {myProfile} = useMyProfile();
   const profileId = myProfile?.id;
   return (
-    <header className="flex items-center justify-between px-6 py-4">
+    <header className="flex items-center justify-between px-6 py-4 rounded-2xl bg-accent/40">
       <Logo />
       <div className="flex gap-6">
         {profileId && <ProfileButton link="/profile" profileId={profileId} />}

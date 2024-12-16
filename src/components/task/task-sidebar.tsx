@@ -47,7 +47,7 @@ const TaskSidebar = ({task}: TaskSidebarProps) => {
         <>
           <div className="flex flex-col gap-4">
             <div className="flex flex-row items-center justify-between">
-              <Label className="text-primary/80">Task Creator</Label>
+              <Label>Task Creator:</Label>
               <div onClick={() => setShowOwnerChangeDialog(true)}>
                 <ProfileButton
                   profileId={task.originalOwnerId}

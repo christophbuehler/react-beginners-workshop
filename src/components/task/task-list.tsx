@@ -26,6 +26,73 @@ export type TaskListCol =
   | 'actions'
   | 'accept';
 
+const gridCols: Record<
+  TaskListCol,
+  [header: string, content: (task: Task) => React.ReactNode, className?: string]
+> = {
+  title: ['Title', (task) => task.title, 'w-full'],
+  creator: [
+    'Creator',
+    ({originalOwnerId}) => (
+      <ProfileButton variant="link" profileId={originalOwnerId} />
+    ),
+    'w-min',
+  ],
+  owner: [
+    'Owner',
+    ({ownerId}) => <ProfileButton variant="link" profileId={ownerId} />,
+  ],
+  status: ['Status', (task) => <TaskStatusBadge task={task} />],
+  actions: [
+    'Actions',
+    (task) => (
+      <Link href={`/task/${task.id}`}>
+        <Button variant="outline" size="sm">
+          View
+        </Button>
+      </Link>
+    ),
+    'w-',
+  ],
+  accept: [
+    '',
+    (task) =>
+      !task.accepted && (
+        <div className="space-x-2 whitespace-nowrap">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => acceptTask(task, false)}
+              >
+                <X />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Reject this task and send it back to its owner.</p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => acceptTask(task, true)}
+              >
+                <Check />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Accept this task.</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      ),
+    'w-min',
+  ],
+};
+
 interface TaskListProps {
   tasks: Task[] | null;
   cols: Set<TaskListCol>;
@@ -35,81 +102,9 @@ interface TaskListProps {
 export const TaskList = ({
   tasks,
   cols,
-  emptyMessage = 'No tasks found.',
+  emptyMessage = 'No tasks found. 👀 Time to go home.',
 }: TaskListProps) => {
-  const gridCols: Record<
-    TaskListCol,
-    [
-      header: string,
-      content: (task: Task) => React.ReactNode,
-      className?: string,
-    ]
-  > = {
-    title: ['Title', (task) => task.title, 'w-full'],
-    creator: [
-      'Creator',
-      ({originalOwnerId}) => (
-        <ProfileButton variant="link" profileId={originalOwnerId} />
-      ),
-      'w-min',
-    ],
-    owner: [
-      'Owner',
-      ({ownerId}) => <ProfileButton variant="link" profileId={ownerId} />,
-    ],
-    status: ['Status', (task) => <TaskStatusBadge task={task} />],
-    actions: [
-      'Actions',
-      (task) => (
-        <Link href={`/task/${task.id}`}>
-          <Button variant="outline" size="sm">
-            View
-          </Button>
-        </Link>
-      ),
-      'w-',
-    ],
-    accept: [
-      '',
-      (task) =>
-        !task.accepted && (
-          <div className="space-x-2 whitespace-nowrap">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => acceptTask(task, false)}
-                >
-                  <X />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Reject this task and send it back to its owner.</p>
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => acceptTask(task, true)}
-                >
-                  <Check />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Accept this task.</p>
-              </TooltipContent>
-            </Tooltip>
-          </div>
-        ),
-      'w-min',
-    ],
-  };
-
   const displayCols = Array.from(cols).map((col) => gridCols[col]);
-
   return (
     <>
       {tasks && tasks.length > 0 ? (
@@ -137,7 +132,9 @@ export const TaskList = ({
           </TableBody>
         </Table>
       ) : (
-        <p className="text-center text-gray-500 py-8">{emptyMessage}</p>
+        <p className="text-center text-primary/80 py-2 inline-block">
+          {emptyMessage}
+        </p>
       )}
     </>
   );
