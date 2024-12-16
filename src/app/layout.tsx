@@ -2,12 +2,12 @@ import type {Metadata} from 'next';
 import {Geist, Geist_Mono} from 'next/font/google';
 import './globals.css';
 import {AuthProvider} from '@/app/providers/auth-provider';
-import {ThemeProvider} from '@/app/providers/theme-provider';
 import {Toaster} from '@/components/ui/toaster';
 import {TooltipProvider} from '@/components/ui/tooltip';
 import {ErrorProvider} from './providers/error-provider';
 import {MyProfileProvider} from './providers/my-profile-provider';
 import '@/lib/firebase-config';
+import {ThemeProvider} from 'next-themes';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
