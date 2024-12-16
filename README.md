@@ -17,6 +17,8 @@ A task management system for robots. Project created for beginner React Workshop
 # Development
 
 ```bash
+yarn dlx @yarnpkg/sdks vscode
+yarn install
 yarn dev
 ```
 
