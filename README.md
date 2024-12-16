@@ -1,6 +1,9 @@
 # RoboChores
 
-A simple task management system to learn React and modern web development.
+A task management system for robots. Project created for hosting beginner React Workshop.
+
+![Preview](preview-0.png)
+![Preview](preview-1.png)
 
 ## **Stack**
 

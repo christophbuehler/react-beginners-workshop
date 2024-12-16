@@ -97,21 +97,25 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
 
           <hr />
 
-          <div className="flex flex-col gap-4">
-            <Button
-              disabled={loading}
-              variant="secondary"
-              onClick={() => setShowCompleteDialog(true)}
-            >
-              <CheckCheck />
-              Complete Task
-            </Button>
+          {!task.completed && (
+            <>
+              <div className="flex flex-col gap-4">
+                <Button
+                  disabled={loading}
+                  variant="secondary"
+                  onClick={() => setShowCompleteDialog(true)}
+                >
+                  <CheckCheck />
+                  Complete Task
+                </Button>
 
-            <p className="text-primary/80 text-sm flex flex-col gap-2">
-              Completing this task will return it to the creator. You can’t undo
-              this action.
-            </p>
-          </div>
+                <p className="text-primary/80 text-sm flex flex-col gap-2">
+                  Completing this task will return it to the creator. You can’t
+                  undo this action.
+                </p>
+              </div>
+            </>
+          )}
 
           <CompleteTaskDialog
             open={showCompleteDialog}
