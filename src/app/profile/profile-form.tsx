@@ -1,47 +1,47 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-import { useMyProfile } from "@/hooks/use-my-profile";
-import { LogOut } from "lucide-react";
-import { getAuth, signOut } from "firebase/auth";
-import { useError } from "@/hooks/use-error";
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {Label} from '@/components/ui/label';
+import {useError} from '@/hooks/use-error';
+import {useMyProfile} from '@/hooks/use-my-profile';
+import {getAuth, signOut} from 'firebase/auth';
+import {doc, getFirestore, setDoc} from 'firebase/firestore';
+import {LogOut} from 'lucide-react';
+import Image from 'next/image';
+import {useRouter} from 'next/navigation';
+import {useState} from 'react';
 
 const PROFILE_PIC_OPTIONS = Array.from(
-  { length: 9 },
-  (_, index) => `/botts/bott-${index + 1}.svg`
+  {length: 9},
+  (_, index) => `/botts/bott-${index + 1}.svg`,
 );
 
 export const ProfileForm = () => {
   const auth = getAuth();
-  const { myProfile } = useMyProfile();
+  const {myProfile} = useMyProfile();
   const router = useRouter();
   const db = getFirestore();
-  const [username, setUsername] = useState<string>(myProfile?.name ?? "");
+  const [username, setUsername] = useState<string>(myProfile?.name ?? '');
   const [selectedPic, setSelectedPic] = useState<string>(
-    myProfile?.profilePic || PROFILE_PIC_OPTIONS[0]
+    myProfile?.profilePic || PROFILE_PIC_OPTIONS[0],
   );
   const isNewUser = !myProfile;
   const [saving, setSaving] = useState<boolean>(false);
-  const { setError } = useError();
+  const {setError} = useError();
 
   const handleSave = async () => {
     const userId = getAuth().currentUser?.uid;
     if (!userId) return;
     setSaving(true);
     try {
-      const userDocRef = doc(db, "users", userId);
+      const userDocRef = doc(db, 'users', userId);
       await setDoc(userDocRef, {
         name: username,
         profilePic: selectedPic,
         updatedAt: new Date(),
       });
-      router.push("/");
+      router.push('/');
     } catch (err) {
       setError(`Error saving profile: ${(err as Error).message}`);
       setSaving(false);
@@ -56,7 +56,7 @@ export const ProfileForm = () => {
     <div className="max-w-lg mx-auto p-6 space-y-6">
       <div className="text-center">
         <h1 className="text-3xl font-semibold">
-          {isNewUser ? "Welcome! Create Your Profile" : "Edit Your Profile"}
+          {isNewUser ? 'Welcome! Create Your Profile' : 'Edit Your Profile'}
         </h1>
         <p className="text-muted-foreground mt-2">
           Set your username and choose a profile picture.
@@ -83,8 +83,8 @@ export const ProfileForm = () => {
               onClick={() => setSelectedPic(pic)}
               className={`select-none relative cursor-pointer rounded-lg flex items-center justify-center transition-all ${
                 selectedPic === pic
-                  ? "ring-2 ring-primary"
-                  : "ring-1 ring-border hover:ring-primary/60"
+                  ? 'ring-2 ring-primary'
+                  : 'ring-1 ring-border hover:ring-primary/60'
               }`}
             >
               <Image
@@ -93,7 +93,7 @@ export const ProfileForm = () => {
                 width={80}
                 height={80}
                 className={`rounded-lg ${
-                  selectedPic === pic ? "animate-grow-shake" : ""
+                  selectedPic === pic ? 'animate-grow-shake' : ''
                 }`}
               />
             </div>
@@ -106,7 +106,7 @@ export const ProfileForm = () => {
         onClick={handleSave}
         disabled={!username.trim() || saving}
       >
-        {saving ? "Saving..." : "Save Profile"}
+        {saving ? 'Saving...' : 'Save Profile'}
       </Button>
 
       <Button

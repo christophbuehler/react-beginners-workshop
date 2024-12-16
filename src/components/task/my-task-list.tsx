@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { TaskList, TaskListCol } from "./task-list";
-import { Plus } from "lucide-react";
-import { useMyTasks } from "@/hooks/use-my-tasks";
+import {Button} from '@/components/ui/button';
+import {useMyTasks} from '@/hooks/use-my-tasks';
+import {Plus} from 'lucide-react';
+import Link from 'next/link';
+import {TaskList, type TaskListCol} from './task-list';
 
 export const MyTaskList = () => {
-  const { tasks } = useMyTasks();
-  const cols = new Set<TaskListCol>(["title", "creator", "status", "actions"]);
+  const {tasks} = useMyTasks();
+  const cols = new Set<TaskListCol>(['title', 'creator', 'status', 'actions']);
 
   return (
     <div>

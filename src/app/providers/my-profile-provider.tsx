@@ -1,11 +1,16 @@
-"use client";
+'use client';
 
-import React, { createContext, ReactNode, useState, useEffect } from "react";
-import { doc, getFirestore, onSnapshot, Timestamp } from "firebase/firestore";
-import { useAuth } from "@/hooks/use-auth";
-import LoadingIndicator from "@/components/loading-indicator";
-import { debugLog } from "@/lib/log";
-import { useError } from "@/hooks/use-error";
+import LoadingIndicator from '@/components/loading-indicator';
+import {useAuth} from '@/hooks/use-auth';
+import {useError} from '@/hooks/use-error';
+import {debugLog} from '@/lib/log';
+import {
+  type Timestamp,
+  doc,
+  getFirestore,
+  onSnapshot,
+} from 'firebase/firestore';
+import {type ReactNode, createContext, useEffect, useState} from 'react';
 
 export interface Profile {
   id: string;
@@ -20,37 +25,37 @@ interface MyProfileContextType {
 }
 
 export const MyProfileContext = createContext<MyProfileContextType | undefined>(
-  undefined
+  undefined,
 );
 
-export const MyProfileProvider = ({ children }: { children: ReactNode }) => {
+export const MyProfileProvider = ({children}: {children: ReactNode}) => {
   const uid = useAuth()?.user?.uid;
   const [myProfile, setMyProfile] = useState<Profile | null | undefined>(
-    undefined
+    undefined,
   );
-  const { setError } = useError();
+  const {setError} = useError();
 
   useEffect(() => {
     const db = getFirestore();
     if (!uid) {
-      debugLog("Skip loading profile because user is not logged in");
+      debugLog('Skip loading profile because user is not logged in');
       setMyProfile(null);
       return;
     }
-    debugLog("Load user profile", uid);
-    const docRef = doc(db, "users", uid);
+    debugLog('Load user profile', uid);
+    const docRef = doc(db, 'users', uid);
     const unsubscribe = onSnapshot(
       docRef,
       (snapshot) => {
         const profile = snapshot.data() as Profile | undefined;
-        setMyProfile(profile ? { ...profile, id: snapshot.id } : null);
-        debugLog("Loaded user profile");
+        setMyProfile(profile ? {...profile, id: snapshot.id} : null);
+        debugLog('Loaded user profile');
       },
       (err) => {
         setError(
-          err.message || "An error occurred while fetching the profile."
+          err.message || 'An error occurred while fetching the profile.',
         );
-      }
+      },
     );
     return () => unsubscribe();
   }, [uid, setError]);
@@ -58,7 +63,7 @@ export const MyProfileProvider = ({ children }: { children: ReactNode }) => {
   if (myProfile === undefined) return <LoadingIndicator />;
 
   return (
-    <MyProfileContext.Provider value={{ myProfile }}>
+    <MyProfileContext.Provider value={{myProfile}}>
       {children}
     </MyProfileContext.Provider>
   );

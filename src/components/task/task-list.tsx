@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import { Task } from "@/hooks/use-tasks";
-import ProfileButton from "../profile-button";
-import { Button } from "../ui/button";
+import type {Task} from '@/hooks/use-tasks';
+import {acceptTask} from '@/lib/accept-task';
+import {TooltipTrigger} from '@radix-ui/react-tooltip';
+import {Check, X} from 'lucide-react';
+import Link from 'next/link';
+import ProfileButton from '../profile-button';
+import {Button} from '../ui/button';
 import {
-  TableHeader,
-  TableRow,
-  TableHead,
+  Table,
   TableBody,
   TableCell,
-  Table,
-} from "../ui/table";
-import Link from "next/link";
-import { Check, X } from "lucide-react";
-import { acceptTask } from "@/lib/accept-task";
-import { Tooltip, TooltipContent } from "../ui/tooltip";
-import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { TaskStatusBadge } from "./task-status-badge";
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '../ui/table';
+import {Tooltip, TooltipContent} from '../ui/tooltip';
+import {TaskStatusBadge} from './task-status-badge';
 
 export type TaskListCol =
-  | "title"
-  | "creator"
-  | "owner"
-  | "status"
-  | "actions"
-  | "accept";
+  | 'title'
+  | 'creator'
+  | 'owner'
+  | 'status'
+  | 'actions'
+  | 'accept';
 
 interface TaskListProps {
   tasks: Task[] | null;
@@ -35,37 +35,37 @@ interface TaskListProps {
 export const TaskList = ({
   tasks,
   cols,
-  emptyMessage = "No tasks found.",
+  emptyMessage = 'No tasks found.',
 }: TaskListProps) => {
   const gridCols: Record<
     TaskListCol,
     [
       header: string,
       content: (task: Task) => React.ReactNode,
-      className?: string
+      className?: string,
     ]
   > = {
-    title: ["Title", (task) => task.title, "w-full"],
+    title: ['Title', (task) => task.title, 'w-full'],
     creator: [
-      "Creator",
-      ({ originalOwnerId }) => (
+      'Creator',
+      ({originalOwnerId}) => (
         <ProfileButton
           variant="link"
           profileId={originalOwnerId}
           showPopover={true}
         />
       ),
-      "w-min",
+      'w-min',
     ],
     owner: [
-      "Owner",
-      ({ ownerId }) => (
+      'Owner',
+      ({ownerId}) => (
         <ProfileButton variant="link" profileId={ownerId} showPopover={true} />
       ),
     ],
-    status: ["Status", (task) => <TaskStatusBadge task={task} />],
+    status: ['Status', (task) => <TaskStatusBadge task={task} />],
     actions: [
-      "Actions",
+      'Actions',
       (task) => (
         <Link href={`/task/${task.id}`}>
           <Button variant="outline" size="sm">
@@ -73,10 +73,10 @@ export const TaskList = ({
           </Button>
         </Link>
       ),
-      "w-",
+      'w-',
     ],
     accept: [
-      "",
+      '',
       (task) =>
         !task.accepted && (
           <div className="space-x-2 whitespace-nowrap">
@@ -110,7 +110,7 @@ export const TaskList = ({
             </Tooltip>
           </div>
         ),
-      "w-min",
+      'w-min',
     ],
   };
 

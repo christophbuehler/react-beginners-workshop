@@ -1,27 +1,27 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/app/providers/theme-provider";
-import { FirebaseProvider } from "@/app/providers/firebase-provider";
-import { AuthProvider } from "@/app/providers/auth-provider";
-import { MyProfileProvider } from "./providers/my-profile-provider";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { ErrorProvider } from "./providers/error-provider";
-import { Toaster } from "@/components/ui/toaster";
+import type {Metadata} from 'next';
+import {Geist, Geist_Mono} from 'next/font/google';
+import './globals.css';
+import {AuthProvider} from '@/app/providers/auth-provider';
+import {FirebaseProvider} from '@/app/providers/firebase-provider';
+import {ThemeProvider} from '@/app/providers/theme-provider';
+import {Toaster} from '@/components/ui/toaster';
+import {TooltipProvider} from '@/components/ui/tooltip';
+import {ErrorProvider} from './providers/error-provider';
+import {MyProfileProvider} from './providers/my-profile-provider';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: "RoboChores",
-  description: "Demo Project for a React Beginners Workshop",
+  title: 'RoboChores',
+  description: 'Demo Project for a React Beginners Workshop',
 };
 
 export default function RootLayout({

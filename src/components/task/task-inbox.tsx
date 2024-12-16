@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { TaskList, TaskListCol } from "./task-list";
-import { Card } from "../ui/card";
-import { Info } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
-import { useInbox } from "@/hooks/use-inbox";
+import {useInbox} from '@/hooks/use-inbox';
+import {Info} from 'lucide-react';
+import {Card} from '../ui/card';
+import {Tooltip, TooltipContent, TooltipTrigger} from '../ui/tooltip';
+import {TaskList, type TaskListCol} from './task-list';
 
 const TaskInbox = () => {
-  const { tasks } = useInbox();
-  const cols = new Set<TaskListCol>(["title", "accept"]);
+  const {tasks} = useInbox();
+  const cols = new Set<TaskListCol>(['title', 'accept']);
   return (
     <div className="flex flex-col gap-8">
       <h1 className="text-xl font-bold flex items-center gap-2">

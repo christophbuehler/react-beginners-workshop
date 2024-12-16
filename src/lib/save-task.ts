@@ -1,25 +1,25 @@
+import type {Task} from '@/hooks/use-tasks';
+import {getAuth} from 'firebase/auth';
 import {
-  getFirestore,
-  doc,
-  updateDoc,
   addDoc,
   collection,
-} from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { Task } from "@/hooks/use-tasks";
+  doc,
+  getFirestore,
+  updateDoc,
+} from 'firebase/firestore';
 
 export const saveTask = async (task: Partial<Task>) => {
   const db = getFirestore();
   const currentUid = getAuth()?.currentUser?.uid;
 
   if (task.id) {
-    await updateDoc(doc(db, "tasks", task.id), {
+    await updateDoc(doc(db, 'tasks', task.id), {
       ...task,
       updatedAt: new Date(),
     });
   } else {
-    if (!currentUid) throw new Error("User not authenticated");
-    await addDoc(collection(db, "tasks"), {
+    if (!currentUid) throw new Error('User not authenticated');
+    await addDoc(collection(db, 'tasks'), {
       ...task,
       accepted: true,
       originalOwnerId: currentUid,

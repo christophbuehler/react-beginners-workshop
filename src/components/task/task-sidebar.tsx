@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { Label } from "@/components/ui/label";
-import OwnerChangeDialog from "./owner-change-dialog";
-import { Task } from "@/hooks/use-tasks";
-import { useState } from "react";
-import ProfileButton from "../profile-button";
-import { Button } from "../ui/button";
-import { CheckCheck, Send } from "lucide-react";
-import { saveTask } from "@/lib/save-task";
-import { useRouter } from "next/navigation";
-import CompleteTaskDialog from "./complete-task-dialog";
+import {Label} from '@/components/ui/label';
+import type {Task} from '@/hooks/use-tasks';
+import {saveTask} from '@/lib/save-task';
+import {CheckCheck, Send} from 'lucide-react';
+import {useRouter} from 'next/navigation';
+import {useState} from 'react';
+import ProfileButton from '../profile-button';
+import {Button} from '../ui/button';
+import CompleteTaskDialog from './complete-task-dialog';
+import OwnerChangeDialog from './owner-change-dialog';
 
 export interface TaskSidebarProps {
   task: Task | null;
 }
 
-const TaskSidebar = ({ task }: TaskSidebarProps) => {
+const TaskSidebar = ({task}: TaskSidebarProps) => {
   const [showOwnerChangeDialog, setShowOwnerChangeDialog] = useState(false);
   const [showCompleteDialog, setShowCompleteDialog] = useState(false);
 
@@ -30,7 +30,7 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
       ownerId: task?.originalOwnerId,
       accepted: false,
     });
-    router.push("/");
+    router.push('/');
     setLoading(false);
   };
 
@@ -92,7 +92,7 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
             open={showOwnerChangeDialog}
             task={task}
             onClose={() => setShowOwnerChangeDialog(false)}
-            onChange={() => router.push("/")}
+            onChange={() => router.push('/')}
           />
 
           {!task.completed && (
@@ -120,7 +120,7 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
           <CompleteTaskDialog
             open={showCompleteDialog}
             onClose={() => setShowCompleteDialog(false)}
-            onComplete={() => router.push("/")}
+            onComplete={() => router.push('/')}
             task={task}
           />
         </>

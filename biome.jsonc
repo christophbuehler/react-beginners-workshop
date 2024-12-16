@@ -1,0 +1,85 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "ignore": ["package.json", "src/components/ui/**"]
+  },
+  "assists": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "sortJsxProps": "off",
+        "useSortedKeys": "off"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto",
+    "bracketSpacing": false
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "a11y": {
+        "useAriaPropsForRole": "off",
+        "useKeyWithClickEvents": "off",
+        "useFocusableInteractive": "off",
+        "useSemanticElements": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "off",
+        "noUnusedImports": {
+          "level": "error",
+          "fix": "safe"
+        }
+      },
+      "style": {
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "strictCase": false,
+            "requireAscii": true,
+            "filenameCases": ["kebab-case", "PascalCase", "export"]
+          }
+        },
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off"
+      }
+    }
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "quoteStyle": "single"
+    }
+  },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  }
+}

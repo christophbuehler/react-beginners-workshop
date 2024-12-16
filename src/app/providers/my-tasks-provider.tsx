@@ -1,29 +1,30 @@
-"use client";
+'use client';
 
-import React, { createContext, useState, useEffect } from "react";
+import {useAuth} from '@/hooks/use-auth';
+import type {Task} from '@/hooks/use-tasks';
 import {
+  collection,
+  getFirestore,
   onSnapshot,
   query,
-  collection,
   where,
-  getFirestore,
-} from "firebase/firestore";
-import { Task } from "@/hooks/use-tasks";
-import { useAuth } from "@/hooks/use-auth";
+} from 'firebase/firestore';
+import type React from 'react';
+import {createContext, useEffect, useState} from 'react';
 
 interface MyTasksContextProps {
   tasks: Task[];
 }
 
 export const MyTasksContext = createContext<MyTasksContextProps | undefined>(
-  undefined
+  undefined,
 );
 
 export interface MyTasksProviderProps {
   children: React.ReactNode;
 }
 
-export const MyTasksProvider = ({ children }: MyTasksProviderProps) => {
+export const MyTasksProvider = ({children}: MyTasksProviderProps) => {
   const uid = useAuth()?.user?.uid;
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -31,9 +32,9 @@ export const MyTasksProvider = ({ children }: MyTasksProviderProps) => {
     const db = getFirestore();
     if (!uid) return;
     const tasksQuery = query(
-      collection(db, "tasks"),
-      where("ownerId", "==", uid),
-      where("accepted", "==", true)
+      collection(db, 'tasks'),
+      where('ownerId', '==', uid),
+      where('accepted', '==', true),
     );
     const unsubscribe = onSnapshot(tasksQuery, (snapshot) => {
       const fetchedTasks: Task[] = snapshot.docs.map((doc) => ({
@@ -47,7 +48,7 @@ export const MyTasksProvider = ({ children }: MyTasksProviderProps) => {
   }, [uid]);
 
   return (
-    <MyTasksContext.Provider value={{ tasks }}>
+    <MyTasksContext.Provider value={{tasks}}>
       {children}
     </MyTasksContext.Provider>
   );

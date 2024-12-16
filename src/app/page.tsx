@@ -1,6 +1,6 @@
-import ProtectedLayout from "./protected-layout";
-import { MyTaskList } from "../components/task/my-task-list";
-import TaskInbox from "@/components/task/task-inbox";
+import TaskInbox from '@/components/task/task-inbox';
+import {MyTaskList} from '../components/task/my-task-list';
+import ProtectedLayout from './protected-layout';
 
 const HomePage = () => (
   <ProtectedLayout>

@@ -1,12 +1,12 @@
-import { Task } from "@/hooks/use-tasks";
-import { Badge } from "../ui/badge";
-import { CheckCheck, Dot } from "lucide-react";
+import type {Task} from '@/hooks/use-tasks';
+import {CheckCheck, Dot} from 'lucide-react';
+import {Badge} from '../ui/badge';
 
 interface TaskStatusBadgeProps {
   task: Task;
 }
 
-export const TaskStatusBadge = ({ task }: TaskStatusBadgeProps) =>
+export const TaskStatusBadge = ({task}: TaskStatusBadgeProps) =>
   task.completed ? (
     <Badge variant="secondary" className="cursor-default gap-1">
       <CheckCheck className="w-4 h-4" />
