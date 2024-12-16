@@ -1,0 +1,87 @@
+"use client";
+
+import { useAuth } from "@/app/providers/auth-provider";
+import React, { useState } from "react";
+import { X } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Logo from "@/components/logo";
+
+export default function Login() {
+  const router = useRouter();
+  const { login } = useAuth();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const year = new Date().getFullYear();
+
+  async function loginUser() {
+    try {
+      setError(null);
+      await login(username, password);
+      router.push("/profile");
+    } catch {
+      setError("Invalid username or password.");
+    }
+  }
+
+  return (
+    <form className="flex min-h-screen items-center justify-center bg-background">
+      <Card className="w-full max-w-md p-6 shadow-lg">
+        <CardHeader>
+          <h1 className="text-xl font-semibold text-center text-primary">
+            Welcome Back
+          </h1>
+          <p className="text-sm text-center text-muted-foreground">
+            Please log in to your account
+          </p>
+        </CardHeader>
+        <CardContent>
+          {error && (
+            <div className="mb-4 flex items-center justify-between rounded-md bg-destructive/10 p-2 text-destructive">
+              <span>{error}</span>
+              <X className="cursor-pointer" onClick={() => setError(null)} />
+            </div>
+          )}
+          <div className="space-y-4">
+            <Input
+              type="email"
+              placeholder="Email"
+              autoComplete="email"
+              value={username}
+              onChange={(evt) => setUsername(evt.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(evt) => setPassword(evt.target.value)}
+            />
+          </div>
+        </CardContent>
+        <CardFooter className="flex flex-col items-center gap-4">
+          <Button type="button" className="w-full" onClick={loginUser}>
+            Sign In
+          </Button>
+          <div className="text-sm text-center text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <Link href="/register" className="text-primary hover:underline">
+              Sign up here
+            </Link>
+            <br />
+            &copy; {year} <Logo />
+          </div>
+        </CardFooter>
+      </Card>
+    </form>
+  );
+}
