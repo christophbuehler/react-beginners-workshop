@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,6 @@ import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useMyProfile } from "@/hooks/use-my-profile";
 import { LogOut } from "lucide-react";
 import { getAuth, signOut } from "firebase/auth";
-import { useAuth } from "@/hooks/use-auth";
 import { useError } from "@/hooks/use-error";
 import LoadingIndicator from "@/components/loading-indicator";
 
@@ -22,40 +21,27 @@ const PROFILE_PIC_OPTIONS = Array.from(
 export const ProfileForm = () => {
   const auth = getAuth();
   const { myProfile, loading: profileLoading } = useMyProfile();
-  const { user } = useAuth();
   const router = useRouter();
-  const db = useMemo(() => getFirestore(), []);
-
-  const [username, setUsername] = useState<string>("");
+  const db = getFirestore();
+  const [username, setUsername] = useState<string>(myProfile?.name ?? "");
   const [selectedPic, setSelectedPic] = useState<string>(
-    PROFILE_PIC_OPTIONS[0]
+    myProfile?.profilePic || PROFILE_PIC_OPTIONS[0]
   );
-  const [isNewUser, setIsNewUser] = useState<boolean>(true);
+  const isNewUser = !myProfile;
   const [saving, setSaving] = useState<boolean>(false);
   const { setError } = useError();
 
-  useEffect(() => {
-    if (myProfile) {
-      setUsername(myProfile.name || "");
-      setSelectedPic(myProfile?.profilePic || PROFILE_PIC_OPTIONS[0]);
-      setIsNewUser(false);
-    }
-  }, [myProfile]);
-
   const handleSave = async () => {
-    if (!user) return;
-
+    const userId = getAuth().currentUser?.uid;
+    if (!userId) return;
     setSaving(true);
-
     try {
-      const userDocRef = doc(db, "users", user.uid);
-
+      const userDocRef = doc(db, "users", userId);
       await setDoc(userDocRef, {
         name: username,
         profilePic: selectedPic,
         updatedAt: new Date(),
       });
-
       router.push("/");
     } catch (err) {
       setError(`Error saving profile: ${(err as Error).message}`);
@@ -67,9 +53,7 @@ export const ProfileForm = () => {
     await signOut(auth);
   };
 
-  if (profileLoading) {
-    return <LoadingIndicator />;
-  }
+  if (profileLoading) return <LoadingIndicator />;
 
   return (
     <div className="max-w-lg mx-auto p-6 space-y-6">

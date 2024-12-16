@@ -13,11 +13,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Logo from "@/components/logo";
-import { useAuth } from "@/hooks/use-auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -25,16 +24,19 @@ const LoginPage = () => {
   const year = new Date().getFullYear();
 
   async function loginUser() {
+    const auth = getAuth();
     try {
       setLoading(true);
       setError(null);
-      await login(username, password);
+      await signInWithEmailAndPassword(auth, username, password);
       router.push("/");
     } catch {
       setError("Invalid username or password.");
     }
     setLoading(false);
   }
+
+  console.log({ error });
 
   return (
     <form className="flex min-h-screen items-center justify-center bg-background">

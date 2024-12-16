@@ -13,11 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/logo";
-import { useAuth } from "@/hooks/use-auth";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 
 const RegisterPage = () => {
   const router = useRouter();
-  const { register } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,14 +25,16 @@ const RegisterPage = () => {
   const year = new Date().getFullYear();
 
   async function registerUser() {
+    const auth = getAuth();
     try {
-      setLoading(true);
-      setError(null);
       if (password !== confirmPassword) {
         setError("Passwords do not match.");
         return;
       }
-      await register(email, password);
+
+      setLoading(true);
+      setError(null);
+      await createUserWithEmailAndPassword(auth, email, password);
       router.push("/profile");
     } catch {
       setError("Failed to create an account.");

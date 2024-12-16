@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState, useEffect, useMemo } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import {
   onSnapshot,
   query,
@@ -24,19 +24,17 @@ export interface InboxProviderProps {
 }
 
 export const InboxProvider = ({ children }: InboxProviderProps) => {
-  const db = useMemo(() => getFirestore(), []);
   const uid = useAuth()?.user?.uid;
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
+    const db = getFirestore();
     if (!uid) return;
-
     const tasksQuery = query(
       collection(db, "tasks"),
       where("ownerId", "==", uid),
       where("accepted", "==", false)
     );
-
     const unsubscribe = onSnapshot(tasksQuery, (snapshot) => {
       const fetchedTasks: Task[] = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -46,7 +44,7 @@ export const InboxProvider = ({ children }: InboxProviderProps) => {
     });
 
     return () => unsubscribe();
-  }, [db, uid]);
+  }, [uid]);
 
   return (
     <InboxContext.Provider value={{ tasks }}>{children}</InboxContext.Provider>
