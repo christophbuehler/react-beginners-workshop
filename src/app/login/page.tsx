@@ -31,8 +31,6 @@ const LoginPage = () => {
     setLoading(false);
   }
 
-  console.log({error});
-
   return (
     <form className="flex min-h-screen items-center justify-center bg-background">
       <Card className="w-full max-w-md p-6 shadow-lg">

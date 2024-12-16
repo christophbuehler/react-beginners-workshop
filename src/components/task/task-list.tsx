@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import type { Task } from "@/hooks/use-tasks";
-import { acceptTask } from "@/lib/accept-task";
-import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { Check, X } from "lucide-react";
-import Link from "next/link";
-import ProfileButton from "../profile-button";
-import { Button } from "../ui/button";
+import type {Task} from '@/hooks/use-tasks';
+import {acceptTask} from '@/lib/accept-task';
+import {TooltipTrigger} from '@radix-ui/react-tooltip';
+import {Check, X} from 'lucide-react';
+import Link from 'next/link';
+import ProfileButton from '../profile-button';
+import {Button} from '../ui/button';
 import {
   Table,
   TableBody,
@@ -14,17 +14,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
-import { Tooltip, TooltipContent } from "../ui/tooltip";
-import { TaskStatusBadge } from "./task-status-badge";
+} from '../ui/table';
+import {Tooltip, TooltipContent} from '../ui/tooltip';
+import {TaskStatusBadge} from './task-status-badge';
 
 export type TaskListCol =
-  | "title"
-  | "creator"
-  | "owner"
-  | "status"
-  | "actions"
-  | "accept";
+  | 'title'
+  | 'creator'
+  | 'owner'
+  | 'status'
+  | 'actions'
+  | 'accept';
 
 interface TaskListProps {
   tasks: Task[] | null;
@@ -35,31 +35,31 @@ interface TaskListProps {
 export const TaskList = ({
   tasks,
   cols,
-  emptyMessage = "No tasks found.",
+  emptyMessage = 'No tasks found.',
 }: TaskListProps) => {
   const gridCols: Record<
     TaskListCol,
     [
       header: string,
       content: (task: Task) => React.ReactNode,
-      className?: string
+      className?: string,
     ]
   > = {
-    title: ["Title", (task) => task.title, "w-full"],
+    title: ['Title', (task) => task.title, 'w-full'],
     creator: [
-      "Creator",
-      ({ originalOwnerId }) => (
+      'Creator',
+      ({originalOwnerId}) => (
         <ProfileButton variant="link" profileId={originalOwnerId} />
       ),
-      "w-min",
+      'w-min',
     ],
     owner: [
-      "Owner",
-      ({ ownerId }) => <ProfileButton variant="link" profileId={ownerId} />,
+      'Owner',
+      ({ownerId}) => <ProfileButton variant="link" profileId={ownerId} />,
     ],
-    status: ["Status", (task) => <TaskStatusBadge task={task} />],
+    status: ['Status', (task) => <TaskStatusBadge task={task} />],
     actions: [
-      "Actions",
+      'Actions',
       (task) => (
         <Link href={`/task/${task.id}`}>
           <Button variant="outline" size="sm">
@@ -67,10 +67,10 @@ export const TaskList = ({
           </Button>
         </Link>
       ),
-      "w-",
+      'w-',
     ],
     accept: [
-      "",
+      '',
       (task) =>
         !task.accepted && (
           <div className="space-x-2 whitespace-nowrap">
@@ -104,7 +104,7 @@ export const TaskList = ({
             </Tooltip>
           </div>
         ),
-      "w-min",
+      'w-min',
     ],
   };
 
@@ -116,8 +116,8 @@ export const TaskList = ({
         <Table className="table-auto w-full">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              {displayCols.map(([header, , cls], i) => (
-                <TableHead key={i} className={cls}>
+              {displayCols.map(([header, , cls]) => (
+                <TableHead key={header} className={cls}>
                   {header}
                 </TableHead>
               ))}
@@ -127,8 +127,8 @@ export const TaskList = ({
           <TableBody>
             {tasks.map((task: Task) => (
               <TableRow className="hover:bg-transparent" key={task.id}>
-                {displayCols.map(([, cell, cls], i) => (
-                  <TableCell key={i} className={`${cls} align-middle`}>
+                {displayCols.map(([header, cell, cls]) => (
+                  <TableCell key={header} className={`${cls} align-middle`}>
                     {cell(task)}
                   </TableCell>
                 ))}

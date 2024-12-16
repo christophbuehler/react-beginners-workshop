@@ -1,6 +1,7 @@
 'use client';
 
 import LoadingIndicator from '@/components/loading-indicator';
+import {firebaseApp} from '@/lib/firebase-config';
 import {debugLog} from '@/lib/log';
 import {type User, getAuth, onAuthStateChanged} from 'firebase/auth';
 import {type ReactNode, createContext, useEffect, useState} from 'react';
@@ -15,6 +16,8 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [user, setUser] = useState<User | null | undefined>(undefined);
+
+  useEffect(() => console.debug(`Init Firebase App ${firebaseApp.name}`), []);
 
   useEffect(() => {
     const auth = getAuth();
