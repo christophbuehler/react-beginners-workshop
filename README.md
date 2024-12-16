@@ -1,6 +1,6 @@
 # RoboChores
 
-A task management system for robots. Project created for beginner React Workshop at [Swiss Life (Schweiz)](https://www.swisslife.ch/).
+A task management system for robots. Project created for React Workshop at [Swiss Life (Schweiz)](https://www.swisslife.ch/).
 
 ![Preview](preview-0.png)
 ![Preview](preview-1.png)
@@ -14,12 +14,26 @@ A task management system for robots. Project created for beginner React Workshop
 - [**shadcn Component Library**](https://ui.shadcn.com/)
 - [**Tailwind CSS**](https://tailwindcss.com/)
 
+## How to Run
+
+1. **Prerequisites**: Ensure you have the following installed:
+   - [Git](https://git-scm.com/)
+   - [Node.js](https://nodejs.org/)
+   - [Yarn](https://yarnpkg.com/)
+
+2. **Clone the repository**:
+   ```bash
+   git clone git@github.com:christophbuehler/react-workshop.git
+
+3. `yarn install`
+
+4. `yarn dev`
+
 # Development
+For better integration with VSCode and Yarn, run the following command to generate the SDK:
 
 ```bash
 yarn dlx @yarnpkg/sdks vscode
-yarn install
-yarn dev
 ```
 
 # Server Setup
