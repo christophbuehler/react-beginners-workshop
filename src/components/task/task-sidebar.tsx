@@ -92,6 +92,7 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
             open={showOwnerChangeDialog}
             task={task}
             onClose={() => setShowOwnerChangeDialog(false)}
+            onChange={() => router.push("/")}
           />
 
           <hr />

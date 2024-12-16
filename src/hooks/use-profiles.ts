@@ -6,8 +6,7 @@ import { useSnapshot } from "@/hooks/use-snapshot";
 export const useProfiles = (): {
   profiles: Profile[] | null;
   loading: boolean;
-  error: string | null;
 } => {
-  const { data: profiles, loading, error } = useSnapshot<Profile[]>("users");
-  return { profiles, loading, error };
+  const { data: profiles, loading } = useSnapshot<Profile[]>("users");
+  return { profiles, loading };
 };

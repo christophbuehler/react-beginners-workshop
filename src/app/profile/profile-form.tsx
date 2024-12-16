@@ -59,8 +59,8 @@ export const ProfileForm = () => {
       router.push("/");
     } catch (err) {
       setError(`Error saving profile: ${(err as Error).message}`);
+      setSaving(false);
     }
-    setSaving(false);
   };
 
   const handleSignOut = async () => {
@@ -87,6 +87,7 @@ export const ProfileForm = () => {
         <Input
           id="username"
           placeholder="Enter your username"
+          autoComplete="off"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />

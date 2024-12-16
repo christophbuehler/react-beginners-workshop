@@ -22,10 +22,12 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const year = new Date().getFullYear();
 
   async function registerUser() {
     try {
+      setLoading(true);
       setError(null);
       if (password !== confirmPassword) {
         setError("Passwords do not match.");
@@ -36,6 +38,7 @@ const RegisterPage = () => {
     } catch {
       setError("Failed to create an account.");
     }
+    setLoading(false);
   }
 
   return (
@@ -81,8 +84,13 @@ const RegisterPage = () => {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col items-center gap-4">
-          <Button type="button" className="w-full" onClick={registerUser}>
-            Sign Up
+          <Button
+            disabled={loading}
+            type="button"
+            className="w-full"
+            onClick={registerUser}
+          >
+            {loading ? "Loading..." : "Sign Up"}
           </Button>
           <div className="text-sm text-center text-muted-foreground">
             Already have an account?{" "}

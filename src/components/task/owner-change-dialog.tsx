@@ -10,28 +10,36 @@ import { Task } from "@/hooks/use-tasks";
 import ProfilePicker from "../profile-picker";
 import { useState } from "react";
 import { saveTask } from "@/lib/save-task";
+import { useError } from "@/hooks/use-error";
 
 export interface OwnerChangeDialogProps {
   open: boolean;
   task: Task;
   onClose: () => void;
+  onChange: () => void;
 }
 
 export default function OwnerChangeDialog({
   open,
   task,
   onClose,
+  onChange,
 }: OwnerChangeDialogProps) {
   const [ownerId, setOwnerId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const disabled = !ownerId || ownerId === task.ownerId;
+  const { setError } = useError();
 
   const changeOwner = async () => {
-    if (disabled) return;
-    setLoading(true);
-    await saveTask({ id: task.id, ownerId, accepted: false });
-    setLoading(false);
-    onClose();
+    try {
+      if (disabled) return;
+      setLoading(true);
+      await saveTask({ id: task.id, ownerId, accepted: false });
+      onChange();
+    } catch {
+      setError("Could not delegate task");
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,7 +64,7 @@ export default function OwnerChangeDialog({
             variant="destructive"
             onClick={changeOwner}
           >
-            {loading ? "Changing..." : "Change Owner"}
+            {loading ? "Delegating..." : "Delegate Task"}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -39,7 +39,7 @@ const ProfilePicker = ({ value, onChange }: ProfilePickerProps) => {
   };
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full">
       {!selectedProfile ? (
         <Input
           type="text"

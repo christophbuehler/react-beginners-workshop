@@ -12,6 +12,7 @@ import TaskHeader from "./task-header";
 import TaskSidebar from "./task-sidebar";
 import { Task } from "@/hooks/use-tasks";
 import LoadingIndicator from "../loading-indicator";
+import { useError } from "@/hooks/use-error";
 
 interface TaskFormProps {
   taskId?: string;
@@ -39,9 +40,8 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
 
 export default function TaskForm({ taskId }: TaskFormProps) {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
-
+  const { setError } = useError();
   const { task, loading: taskLoading } = useTask(taskId);
 
   const [formState, dispatch] = useReducer(formReducer, {
@@ -65,7 +65,8 @@ export default function TaskForm({ taskId }: TaskFormProps) {
       };
       await saveTask(taskData);
       router.push("/");
-    } finally {
+    } catch {
+      setError("Could not create task");
       setLoading(false);
     }
   };
