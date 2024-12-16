@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,14 +7,12 @@ import { useProfile } from "@/hooks/use-profile";
 
 interface ProfileButtonProps {
   profileId: string;
-  showPopover?: boolean;
   link?: string;
   variant?: "link" | "secondary";
 }
 
 export const ProfileButton = ({
   profileId,
-  showPopover = false,
   link,
   variant = "link",
 }: ProfileButtonProps) => {
@@ -27,7 +20,7 @@ export const ProfileButton = ({
 
   if (!profile) return null;
 
-  const formattedDate = new Date(profile.createdAt).toLocaleDateString();
+  console.log({ profile });
 
   const ButtonContent = (
     <Button
@@ -53,43 +46,12 @@ export const ProfileButton = ({
     </Button>
   );
 
-  return (
-    <div className="relative">
-      {showPopover ? (
-        <Popover>
-          <PopoverTrigger asChild>
-            {link ? (
-              <Link href={link} className="no-underline">
-                {ButtonContent}
-              </Link>
-            ) : (
-              ButtonContent
-            )}
-          </PopoverTrigger>
-          <PopoverContent className="w-64 p-4 flex gap-3">
-            <Image
-              src={profile.profilePic}
-              alt={profile.name}
-              width={48}
-              height={48}
-              className="rounded-full"
-            />
-            <div>
-              <p className="text-sm font-semibold">{profile.name}</p>
-              <p className="text-xs text-muted-foreground">
-                Created at: {formattedDate}
-              </p>
-            </div>
-          </PopoverContent>
-        </Popover>
-      ) : link ? (
-        <Link href={link} className="no-underline">
-          {ButtonContent}
-        </Link>
-      ) : (
-        ButtonContent
-      )}
-    </div>
+  return link ? (
+    <Link href={link} className="no-underline">
+      {ButtonContent}
+    </Link>
+  ) : (
+    ButtonContent
   );
 };
 

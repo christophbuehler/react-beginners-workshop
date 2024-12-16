@@ -51,7 +51,6 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
               <div onClick={() => setShowOwnerChangeDialog(true)}>
                 <ProfileButton
                   profileId={task.originalOwnerId}
-                  showPopover={true}
                   variant="link"
                 />
               </div>
@@ -59,11 +58,7 @@ const TaskSidebar = ({ task }: TaskSidebarProps) => {
             <div className="flex flex-row items-center justify-between">
               <Label>Assigned to:</Label>
               <div>
-                <ProfileButton
-                  profileId={task.ownerId}
-                  showPopover={true}
-                  variant="link"
-                />
+                <ProfileButton profileId={task.ownerId} variant="link" />
               </div>
             </div>
 

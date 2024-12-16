@@ -49,18 +49,14 @@ export const TaskList = ({
     creator: [
       "Creator",
       ({ originalOwnerId }) => (
-        <ProfileButton
-          variant="link"
-          profileId={originalOwnerId}
-          showPopover={true}
-        />
+        <ProfileButton variant="link" profileId={originalOwnerId} />
       ),
       "w-min",
     ],
     owner: [
       "Owner",
       ({ ownerId }) => (
-        <ProfileButton variant="link" profileId={ownerId} showPopover={true} />
+        <ProfileButton variant="link" profileId={ownerId} />
       ),
     ],
     status: ["Status", (task) => <TaskStatusBadge task={task} />],
