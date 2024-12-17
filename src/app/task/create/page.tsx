@@ -1,4 +1,4 @@
-import TaskForm from '@/components/task/task-form';
+import {TaskForm} from '@/components/task/task-form';
 import ProtectedLayout from '../../protected-layout';
 
 const CreateTaskPage = () => (

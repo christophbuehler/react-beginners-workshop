@@ -12,8 +12,15 @@ import memoize from 'lodash.memoize';
 import {useEffect, useState} from 'react';
 import {useError} from './use-error';
 
-export const fetchSnapshot = <T>(path: string, documentId?: string | null) =>
-  memoizedFetchData(path, documentId) as Promise<T>;
+export const fetchSnapshot = <T>(
+  path: string,
+  documentId?: string | null,
+  forceFetch = false,
+) => {
+  const cacheKey = documentId ? `${path}/${documentId}` : path;
+  forceFetch && memoizedFetchData.cache.delete(documentId ? cacheKey : path);
+  return memoizedFetchData(path, documentId) as Promise<T>;
+};
 
 export const useSnapshot = <T>(
   path: string,

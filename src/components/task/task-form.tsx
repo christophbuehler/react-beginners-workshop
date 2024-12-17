@@ -9,13 +9,10 @@ import {fetchSnapshot} from '@/hooks/use-snapshot';
 import type {Task} from '@/hooks/use-tasks';
 import {saveTask} from '@/lib/save-task';
 import {useRouter} from 'next/navigation';
-import {use, useReducer, useState} from 'react';
+import {Suspense, use, useReducer, useState} from 'react';
+import {Skeleton} from '../ui/skeleton';
 import TaskHeader from './task-header';
 import TaskSidebar from './task-sidebar';
-
-interface TaskFormProps {
-  taskId?: string;
-}
 
 interface FormState {
   title: string;
@@ -37,14 +34,41 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
   }
 };
 
-export default function TaskForm({taskId}: TaskFormProps) {
-  const task = use(fetchSnapshot<Task>('tasks', taskId ?? null));
+const TaskSkeleton = () => (
+  <div className="flex flex-col space-y-3">
+    <Skeleton className="h-[125px] w-full rounded-xl" />
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-[250px]" />
+      <Skeleton className="h-4 w-[200px]" />
+    </div>
+  </div>
+);
+
+interface TaskFormProps {
+  taskId?: string;
+}
+
+export const TaskForm = ({taskId}: TaskFormProps) => {
+  const taskPromise = fetchSnapshot<Task>('tasks', taskId ?? null, true);
+  return (
+    <Suspense fallback={<TaskSkeleton />}>
+      <InnerTaskForm taskPromise={taskPromise} />
+    </Suspense>
+  );
+};
+
+interface InnerTaskFormProps {
+  taskPromise: Promise<Task | null>;
+}
+
+export const InnerTaskForm = ({taskPromise}: InnerTaskFormProps) => {
+  const task = use(taskPromise);
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const {setError} = useError();
   const [formState, dispatch] = useReducer(
     formReducer,
-    task ?? {
+    task || {
       title: '',
       content: '',
     },
@@ -64,8 +88,6 @@ export default function TaskForm({taskId}: TaskFormProps) {
       setSaving(false);
     }
   };
-
-  console.log(task?.title, formState.title);
 
   const canSubmit =
     !saving && formState.title?.trim() && formState.content.trim();
@@ -105,11 +127,11 @@ export default function TaskForm({taskId}: TaskFormProps) {
         </div>
         <div className="flex justify-end">
           <Button variant="outline" onClick={save} disabled={!canSubmit}>
-            {saving ? 'Saving...' : taskId ? 'Update Task' : 'Create Task'}
+            {saving ? 'Saving...' : task ? 'Update Task' : 'Create Task'}
           </Button>
         </div>
       </div>
       <TaskSidebar task={task} />
     </div>
   );
-}
+};

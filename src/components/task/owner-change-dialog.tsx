@@ -53,7 +53,7 @@ export default function OwnerChangeDialog({
           You are about to change the owner of the task{' '}
           <strong>{task.title}</strong>.
         </DialogDescription>
-        <ProfilePicker value={task.ownerId} onChange={(id) => setOwnerId(id)} />
+        <ProfilePicker value={null} onChange={(id) => setOwnerId(id)} />
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
             Cancel

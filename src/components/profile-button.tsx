@@ -21,8 +21,6 @@ export const ProfileButton = ({
 }: ProfileButtonProps) => {
   const profile = use(fetchSnapshot<Profile>('users', profileId));
 
-  console.log({profile});
-
   const ButtonContent = (
     <Button
       variant={variant}

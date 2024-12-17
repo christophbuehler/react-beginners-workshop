@@ -4,6 +4,7 @@ import type {Task} from '@/hooks/use-tasks';
 import {acceptTask} from '@/lib/accept-task';
 import {TooltipTrigger} from '@radix-ui/react-tooltip';
 import clsx from 'clsx';
+import {format} from 'date-fns';
 import {Check, X} from 'lucide-react';
 import Link from 'next/link';
 import ProfileButton from '../profile-button';
@@ -25,7 +26,8 @@ export type TaskListCol =
   | 'owner'
   | 'status'
   | 'actions'
-  | 'accept';
+  | 'accept'
+  | 'updated';
 
 const gridCols: Record<
   TaskListCol,
@@ -53,7 +55,6 @@ const gridCols: Record<
         </Button>
       </Link>
     ),
-    'w-',
   ],
   accept: [
     '',
@@ -92,6 +93,14 @@ const gridCols: Record<
       ),
     'w-min',
   ],
+  updated: [
+    'Updated',
+    (task) => (
+      <i className="whitespace-nowrap">
+        {format(task.updatedAt.toDate(), 'yyyy-MM-dd hh:mm')}
+      </i>
+    ),
+  ],
 };
 
 interface TaskListProps {
@@ -119,7 +128,6 @@ export const TaskList = ({
               ))}
             </TableRow>
           </TableHeader>
-
           <TableBody>
             {tasks.map((task: Task) => (
               <TableRow className="hover:bg-transparent" key={task.id}>

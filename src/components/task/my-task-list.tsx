@@ -8,7 +8,13 @@ import {TaskList, type TaskListCol} from './task-list';
 
 export const MyTaskList = () => {
   const {tasks} = useMyTasks();
-  const cols = new Set<TaskListCol>(['title', 'creator', 'status', 'actions']);
+  const cols = new Set<TaskListCol>([
+    'title',
+    'creator',
+    'status',
+    'updated',
+    'actions',
+  ]);
 
   return (
     <div>
