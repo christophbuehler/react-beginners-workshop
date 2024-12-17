@@ -100,3 +100,13 @@ There are two options to run this project: either on StackBlitz or locally on yo
 ---
 
 With these instructions, you should be ready to start building and running RoboChores! 🚀
+
+
+# Homework
+
+Implement a CAPTCHA:
+> src/app/captcha/page.tsx
+
+https://robo-chores.vercel.app/captcha
+
+![./hw.png](hw.png)
