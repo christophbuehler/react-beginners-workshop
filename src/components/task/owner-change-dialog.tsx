@@ -60,7 +60,7 @@ export default function OwnerChangeDialog({
           </Button>
           <Button
             disabled={disabled || loading}
-            variant="destructive"
+            variant="default"
             onClick={changeOwner}
           >
             {loading ? 'Delegating...' : 'Delegate Task'}

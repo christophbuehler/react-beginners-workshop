@@ -62,7 +62,7 @@ const CompleteTaskDialog = ({
           <Button variant="outline" onClick={onClose} disabled={loading}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={complete} disabled={loading}>
+          <Button variant="default" onClick={complete} disabled={loading}>
             {loading ? 'Completing...' : 'Confirm'}
           </Button>
         </DialogFooter>
